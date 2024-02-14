@@ -1,6 +1,6 @@
 async function fetchScores() {
     try {
-        const response = await fetch('http://192.168.1.207:3000/houseleaderboard/getscores', {
+        const response = await fetch('https://safetychecker.quinquadcraft.org/houseleaderboard/getscores', {
             method: 'POST'
         });
         const data = await response.json();

@@ -96,7 +96,7 @@ function signUp() {
         confirmPassword: confirmPassword
     };
 
-    fetch('http://192.168.1.207:3000/houseleaderboard/signup', {
+    fetch('https://safetychecker.quinquadcraft.org/houseleaderboard/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ function signIn() {
         password: password,
     };
 
-    fetch('http://192.168.1.207:3000/houseleaderboard/signin', {
+    fetch('https://safetychecker.quinquadcraft.org/houseleaderboard/signin', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -200,7 +200,7 @@ buttons.forEach(button => {
 
 async function fetchScores() {
     try {
-        const response = await fetch('http://192.168.1.207:3000/houseleaderboard/getscores', {
+        const response = await fetch('https://safetychecker.quinquadcraft.org/houseleaderboard/getscores', {
             method: 'POST'
         });
         const data = await response.json();
@@ -247,7 +247,7 @@ function sendScores() {
     token: token
   };
   // Send data to server
-  fetch('http://192.168.1.207:3000/houseleaderboard/updatescore', {
+  fetch('https://safetychecker.quinquadcraft.org/houseleaderboard/updatescore', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -275,7 +275,7 @@ function getUsers() {
     var token = getTCookie('token');
 
     // Fetch list of valid emails from the server
-    fetch('http://192.168.1.207:3000/houseleaderboard/validemails?token=' + token)
+    fetch('https://safetychecker.quinquadcraft.org/houseleaderboard/validemails?token=' + token)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch valid emails');
