@@ -1,0 +1,204 @@
+:root {
+    --winningtheme: #16679a;
+}
+
+.toast,
+main {
+    display: none;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url(fonts/WOFF2/OpenSans-Bold.woff2) format("woff2"), url(fonts/WOFF/OpenSans-Bold.woff) format("woff");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url(fonts/WOFF2/OpenSans-Regular.woff2) format("woff2"), url(fonts/WOFF/OpenSans-Regular.woff) format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    background-color: #f1f1f1;
+    font-family: "Open Sans", sans-serif;
+}
+
+header {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 24px;
+    margin-top: 18px;
+}
+
+/* Left icon */
+header > *:first-child {
+    margin-left: 10px;
+}
+
+/* Right icon */
+header > *:nth-last-child(1) {
+    margin-right: 10px;
+}
+
+
+h3 {
+    font-size: 30px;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.headerLogo {
+    height: 35px;
+    width: auto;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.houseCard {
+    margin: 15px;
+    flex: 1;
+    background-color: #1f1f1f;
+    border-radius: 55px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: auto;
+}
+
+.position {
+    justify-content: center;
+    aspect-ratio: 1/1;
+    border-radius: 1000px;
+
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 35px;
+    color: #fff;
+
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    padding: 30px;
+    margin-top: -10px;
+    margin-left: -10px;
+}
+
+.teamName {
+    justify-content: center;
+
+    display: flex;
+    align-items: center;
+    margin: 0;
+    color: #fff;
+
+    font-size: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -60px;
+    padding: 0;
+    padding-right: 1.75vw;
+}
+
+.scores {
+    height: 100%;
+
+    margin: 0;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    color: #fff;
+    padding: 0;
+}
+
+.scoresContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-right: 2vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -5px;
+    margin-bottom: 7px;
+}
+
+sup {
+    margin-bottom: 20px;
+}
+
+@media screen and (min-width: 850px) {
+    .houseCard {
+        flex-direction: row;
+        width: 800px;
+        height: 150px;
+        margin-left: calc(50vw - 400px);
+    }
+
+    .position {
+        width: 20px;
+        height: 20px;
+    }
+
+    .teamName {
+        margin-top: 0;
+        font-size: 65px;
+        padding-left: 20px;
+        padding-top: 25px;
+    }
+
+    .scores {
+        font-size: 40px;
+    }
+
+    .scoresContainer {
+        margin: 0;
+        margin-left: auto;
+        padding-right: 50px;
+    }
+}
+
+#greenCard {
+    background-color: #07ca78;
+}
+
+#yellowCard {
+    background-color: #f1b900;
+}
+
+#redCard {
+    background-color: #ef233c;
+}
+
+#blueCard {
+    background-color: #3a86ff;
+}
+
+#greenPosition {
+    background-color: #06ac66;
+}
+
+#yellowPosition {
+    background-color: #cc9c00;
+}
+
+#redPosition {
+    background-color: #ce1d33;
+}
+
+#bluePosition {
+    background-color: #2e6bcc;
+}
