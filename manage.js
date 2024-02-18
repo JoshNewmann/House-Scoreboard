@@ -444,6 +444,16 @@ function uds() {
     var updateScores = document.getElementById("updateScores");
     overrideScores.style.display = "none";
     updateScores.style.display = "block";
+    zeroIfEmpty()
+}
+
+function zeroIfEmpty() {
+    var inputs = document.querySelectorAll('.cci'); // Get all input elements with class 'cci'
+    inputs.forEach(function(input) { // Loop through each input element
+        if (input.value === '') { // Check if input value is empty
+            input.value = '0'; // Set input value to '0'
+        }
+    });
 }
 
 //Admin Controls - Access Control
