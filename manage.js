@@ -69,7 +69,6 @@ window.onload = function() {
         console.log('Authorised!');
         clearURLParameters();
     } else {
-        showContainer('signup');
         console.log('Not Authorised. Please Log In.');
         document.getElementById(canvas).style.display = 'block';
         extractEmailAndInviteCodeFromURL()
