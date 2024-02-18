@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="toast.css">
     <link rel="stylesheet" href="style2.css">
+    <link rel="preload" href="./assets/cog-f.svg" as="image">
+    <link rel="preload" href="./assets/logo-small-no-overlay.png" as="image">
 </head>
 <body>
     <header>
-        <img class="headerLogo" id="Slogo" src="/assets/logo-small-black-overlay.png" draggable="false" onclick="window.location.href = 'https://hhs.sa.edu.au'"></img>
+        <img class="headerLogo" id="Slogo" src="./assets/logo-small-black-overlay.png" draggable="false" onclick="window.location.href = 'https://hhs.sa.edu.au'"></img>
         <h3>House Teams Live Scoreboard</h3>
-        <img class="headerLogo" id="Cog" src="/assets/cog.svg" draggable="false" onclick="showPopup()"></img>
+        <img class="headerLogo" id="Cog" src="./assets/cog.svg" draggable="false" onclick="showPopup()"></img>
     </header>
 
     <main>
@@ -23,7 +25,7 @@
             <div>
                 <h2 class="teamName" id="greenName">Onka</h2>
             </div>
-            <div class="scoresContainer" id="greenScore" style="margin-top: 20px;">
+            <div class="scoresContainer" id="greenScore">
                 <h2 class="scores" id="greenPoints">34234&nbspPoints</h2>
             </div>
         </div>
@@ -72,7 +74,7 @@
           <span class="close-btn" onclick="hidePopup()">✖</span>
         </div>
         <div class="popup-content">
-          <button class="setting-btn" onclick="fetchScores()">Update Scores</button>
+          <button class="setting-btn" onclick="fetchScores()">Refresh Scores</button>
           <button class="setting-btn" id="contrastBtn">High Contrast</button>
           <button class="setting-btn" onclick="alert('Please email Josh.Newman429@schools.sa.edu.au for help with this website')">Help</button>
           <button class="setting-btn" id="manageBtn">Manage</button>
@@ -88,5 +90,6 @@
 
     <script src="toast.js"></script>
     <script src="script.js"></script>
+    <script src="settingspopup.js"></script>
 </body>
 </html>

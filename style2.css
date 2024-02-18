@@ -1,5 +1,5 @@
 :root {
-    --winningtheme: #16679a;
+    --textcolour: #fff;
 }
 
 .toast,
@@ -24,77 +24,38 @@ main {
 body {
     background-color: #f1f1f1;
     font-family: "Open Sans", sans-serif;
-    font-size: 80%; /* Scale down font size */
-}
-
-header {
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    margin-bottom: 19.2px; /* Scale down margin */
-    margin-top: 14.4px; /* Scale down margin */
-}
-
-/* Left icon */
-header > *:first-child {
-    margin-left: 8px; /* Scale down margin */
-}
-
-/* Right icon */
-header > *:nth-last-child(1) {
-    margin-right: 8px; /* Scale down margin */
-}
-
-
-h3 {
-    font-size: 24px; /* Scale down font size */
-    margin: 0;
-    padding-left: 8px; /* Scale down padding */
-    padding-right: 8px; /* Scale down padding */
-}
-
-.headerLogo {
-    height: 28px; /* Scale down height */
-    width: auto;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    cursor: pointer;
 }
 
 .houseCard {
-    margin: 12px; /* Scale down margin */
+    margin: 12px;
     flex: 1;
     background-color: #1f1f1f;
-    border-radius: 44px; /* Scale down border radius */
+    border-radius: 44px;
     display: flex;
     flex-direction: column;
     padding: 0;
     height: auto;
+    box-shadow: 0px 4px 10px 1px rgba(224, 16, 214, 0.1);
+
 }
 
 .position {
     justify-content: center;
     aspect-ratio: 1/1;
-    border-radius: 800px; /* Scale down border radius */
+    border-radius: 800px;
 
     display: flex;
     align-items: center;
     margin: 0;
-    font-size: 28px; /* Scale down font size */
-    color: #fff;
+    font-size: 28px;
+    color: var(--textcolour);
 
-    width: 12px; /* Scale down width */
-    height: 12px; /* Scale down height */
-    margin-right: 8px; /* Scale down margin */
-    padding: 24px; /* Scale down padding */
-    margin-top: -8px; /* Scale down margin */
-    margin-left: -8px; /* Scale down margin */
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    padding: 24px;
+    margin-top: -8px;
+    margin-left: -8px;
 }
 
 .teamName {
@@ -103,75 +64,83 @@ h3 {
     display: flex;
     align-items: center;
     margin: 0;
-    color: #fff;
+    color: var(--textcolour);
 
-    font-size: 40px; /* Scale down font size */
+    font-size: 40px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: -48px; /* Scale down margin */
+    margin-top: -48px;
     padding: 0;
-    padding-right: 1.4vw; /* Scale down padding */
+    padding-right: 1.4vw;
 }
 
 .scores {
-    height: 80%; /* Scale down height */
+    height: 80%;
 
     margin: 0;
-    font-size: 28px; /* Scale down font size */
+    font-size: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 4px; /* Scale down margin */
-    color: #fff;
+    margin-bottom: 4px;
+    color: var(--textcolour);
     padding: 0;
-    margin-top: 10px;
+    margin-top: 200px;
 }
 
 .scoresContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding-right: 1.6vw; /* Scale down padding */
+    padding-right: 1.6vw; 
     margin-left: auto;
     margin-right: auto;
-    margin-top: -4px; /* Scale down margin */
-    margin-bottom: 5.6px; /* Scale down margin */
+    margin-top: -4px; 
+    margin-bottom: 5.6px; 
     padding-top: 17.5px;
+    padding-top: 15px;
 }
 
 sup {
-    margin-bottom: 16px; /* Scale down margin */
+    margin-bottom: 16px;
 }
 
-@media screen and (min-width: 680px) { /* Adjusted media query */
+@media screen and (min-width: 680px) { 
     .houseCard {
         flex-direction: row;
-        width: 640px; /* Scale down width */
-        height: 120px; /* Scale down height */
-        margin-left: calc(50vw - 320px); /* Scale down margin */
+        width: 640px;
+        height: 120px; 
+        margin-left: calc(50vw - 320px);
     }
 
     .position {
-        width: 16px; /* Scale down width */
-        height: 16px; /* Scale down height */
+        width: 16px;
+        height: 16px; 
     }
 
     .teamName {
         margin-top: 0;
-        font-size: 52px; /* Scale down font size */
-        padding-left: 16px; /* Scale down padding */
-        padding-top: 20px; /* Scale down padding */
+        font-size: 52px;
+        padding-left: 16px; 
+        padding-top: 20px; 
     }
 
     .scores {
-        font-size: 32px; /* Scale down font size */
+        font-size: 32px;
         margin-top: 0px;
     }
 
     .scoresContainer {
         margin: 0;
         margin-left: auto;
-        padding-right: 40px; /* Scale down padding */
+        padding-right: 40px; 
+    }
+}
+
+@media screen and (max-width: 680px) { 
+    .scoresContainer {
+		padding-top: 0px; 
+        margin-top: -195px;
     }
 }
 
@@ -205,4 +174,18 @@ sup {
 
 #bluePosition {
     background-color: #2e6bcc;
+}
+
+.high-contrast .houseCard,
+.high-contrast .position,
+.high-contrast .scores,
+.high-contrast .scoresContainer,
+.high-contrast .teamName,
+.high-contrast sup {
+    color: black !important;
+    text-shadow: 
+    -3px -3px 3px rgba(255, 255, 255, 0.5),  
+    3px -3px 3px rgba(255, 255, 255, 0.5),
+    -3px  3px 3px rgba(255, 255, 255, 0.5),
+    3px  3px 3px rgba(255, 255, 255, 0.5);
 }
