@@ -541,7 +541,7 @@ function createInvite() {
         console.log('Invite created:', data);
         changeButtonText('createInviteButton', 'Invite');
         emailInput.value = '';
-        showPopup2('Invite Link', 'Send this link to ' + name + ' to invite them to this website:', 'http://127.0.0.1:5500/admin.html?email=' + email + '&inviteCode=' + inviteCode);
+        showPopup2('Invite Link', 'Send this link to ' + name + ' to invite them to this website:', 'https://score.joshnewman6.com/admin.html?email=' + email + '&inviteCode=' + inviteCode);
     })
     .catch(error => console.error('Error creating invite:', error));
 }
