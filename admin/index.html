@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Teams Scoreboard Manager</title>
+    <link rel="stylesheet" href="../common.css">
+    <link rel="stylesheet" href="../toast.css">
+    <link rel="stylesheet" href="./manager.css">
+</head>
+<body>
+    <header>
+      <img class="headerLogo" id="Slogo" alt="logo" src="../assets/logo-small-black-overlay.png" draggable="false" onclick="window.location.href = '..'">
+      <h3>Scoreboard Manager</h3>
+      <img class="headerLogo" id="Cog" src="../assets/user-circle.svg" alt="options" draggable="false" onclick="showPopup()">
+    </header>
+
+    <canvas style="z-index: 0;" id="canvas"></canvas>
+
+    <div id="login" class="container unauth">
+        <div class="wrapper">
+          <div class="title"><span>Log In</span></div>
+          <form id="signinForm">
+            <div class="row">
+                <i class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -5 24 24" width="28" fill="#ffffff"><path d="M3.598 2l5.747 5.12a1 1 0 0 0 1.33 0L16.423 2H3.598zM18 3.273l-5.994 5.341a3 3 0 0 1-3.992 0L2 3.254V12h16V3.273zM2 0h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"></path></svg>
+                </i>
+              <input type="text" placeholder="Email (@schools.sa.edu.au)" name="email" required>
+            </div>
+            <div class="row">
+                <i class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 24 24" width="28" fill="currentColor"><path d="M8.612 16.337l3.746-3.747 1.027.183a5 5 0 1 0-4.039-4.039l.184 1.028-6.994 6.994.177 2.651 2.651.177 1.833-1.833-.707-.707a1 1 0 0 1 1.415-1.414l.707.707zm.707-13.435a7 7 0 1 1 3.715 11.84L6.137 21.64l-4.43-.295a1 1 0 0 1-.932-.932l-.295-4.43 6.898-6.898a6.992 6.992 0 0 1 1.94-6.183zm4.242 5.656A2 2 0 1 1 16.39 5.73a2 2 0 0 1-2.829 2.828z"></path></svg>
+                </i>
+              <input type="password" placeholder="Password" name="password" required>
+            </div>
+            <div style="display: none;" class="pass">Forgot password?</div>
+            <div class="row button">
+              <input type="submit" value="Login" id="loginButton">
+            </div>
+            <div class="signup-link">Need help logging in? <a href="#" onclick="window.location.href = 'mailto:Josh.Newman429@schools.sa.edu.au'">Click Here</a></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="signup" class="container unauth">
+        <div class="wrapper">
+          <div class="title"><span>Sign Up</span></div>
+          <form id="signupForm">
+            <div class="row">
+              <i class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -5 24 24" width="28" fill="#ffffff"><path d="M3.598 2l5.747 5.12a1 1 0 0 0 1.33 0L16.423 2H3.598zM18 3.273l-5.994 5.341a3 3 0 0 1-3.992 0L2 3.254V12h16V3.273zM2 0h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"></path></svg>
+              </i>
+              <input type="email" placeholder="Email (@schools.sa.edu.au)" name="email" id="signupEmail" required>
+            </div>
+            <div class="row">
+              <i class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 24 24" width="28" fill="currentColor"><path d="M8.612 16.337l3.746-3.747 1.027.183a5 5 0 1 0-4.039-4.039l.184 1.028-6.994 6.994.177 2.651 2.651.177 1.833-1.833-.707-.707a1 1 0 0 1 1.415-1.414l.707.707zm.707-13.435a7 7 0 1 1 3.715 11.84L6.137 21.64l-4.43-.295a1 1 0 0 1-.932-.932l-.295-4.43 6.898-6.898a6.992 6.992 0 0 1 1.94-6.183zm4.242 5.656A2 2 0 1 1 16.39 5.73a2 2 0 0 1-2.829 2.828z"></path></svg>
+              </i>
+              <input type="password" placeholder="Password" name="password" required>
+            </div>
+            <div class="row">
+              <i class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 24 24" width="28" fill="currentColor"><path d="M8.612 16.337l3.746-3.747 1.027.183a5 5 0 1 0-4.039-4.039l.184 1.028-6.994 6.994.177 2.651 2.651.177 1.833-1.833-.707-.707a1 1 0 0 1 1.415-1.414l.707.707zm.707-13.435a7 7 0 1 1 3.715 11.84L6.137 21.64l-4.43-.295a1 1 0 0 1-.932-.932l-.295-4.43 6.898-6.898a6.992 6.992 0 0 1 1.94-6.183zm4.242 5.656A2 2 0 1 1 16.39 5.73a2 2 0 0 1-2.829 2.828z"></path></svg>
+              </i>
+              <input type="password" placeholder="Confirm Password" name="confirmPassword" required>
+            </div>
+            <div class="row button">
+              <input type="submit" value="Sign Up" id="signupButton">
+            </div>
+            <div class="signup-link" id="helpSigningUpLink">Need help signing up? <a href="#" onclick="window.location.href = 'mailto:Josh.Newman429@schools.sa.edu.au'">Click Here</a></div>
+            <div class="signup-link" id="haveAccountLink">Already have an account? <a href="#" onclick="showContainer('login')">Log In</a></div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="adminControls">
+        <button onclick="scoreButton()">Score</button>
+        <button onclick="usersButton()">Users</button>
+        <button onclick="showContainer('logs')">Logs</button>
+        <button onclick="showContainer('more')">More</button>
+      </div>
+
+      <div id="score" class="container">
+        <div class="wrapper">
+          <div class="title"><span>Modify Scores</span></div>
+            <div class="containerChild" id="updateScores">
+              <p>Values entered here will be added or subtracted to the respective teams. If you want to override scores instead, <a href="#" onclick="ors(); fetchScores();">click here</a></p><br>
+              <div id="aOnka">
+                <p>Onka (Green)</p><div class="inputLayer"><button class="adownArrow arrows">&#9660;</button><input class="cci" type="number"><button class="aupArrow arrows" >&#9650;</button></div>
+            </div>
+            <div id="aScott">
+                <p>Scott (Yellow)</p><div class="inputLayer"><button class="adownArrow arrows">&#9660;</button><input class="cci" type="number"><button class="aupArrow arrows" >&#9650;</button></div>
+            </div>
+            <div id="aCox">
+                <p>Cox (Red)</p><div class="inputLayer"><button class="adownArrow arrows" >&#9660;</button><input class="cci" type="number"><button class="aupArrow arrows" >&#9650;</button></div>
+            </div>
+            <div id="aSturt">
+                <p>Sturt (Blue)</p><div class="inputLayer sturtInput"><button class="adownArrow arrows" >&#9660;</button><input class="cci" type="number"><button class="aupArrow arrows" >&#9650;</button></div>
+                <button onclick="sendScores('update')" class="cciButton" id="updateButton">Update Scores</button>
+            </div>
+          </div>
+            <div class="containerChild" id="overrideScores">
+              <p>You are about to <b>override</b> the scores. Values entered here will be used as the new score.</p><br> <p>This can cause issues if multiple people are changing scores simultaneously</p><br><p><a href="#" onclick="uds()">Click here to add to the scores instead</a></p><br> 
+              <button id="gsfs" onclick="fetchScores()" class="cciButton">Get scores from server</button><br>
+              <div id="Onka">
+                <p>Onka (Green)</p><div class="inputLayer"><button class="downArrow arrows">&#9660;</button><input class="cci" type="number"><button class="upArrow arrows" >&#9650;</button></div>
+            </div>
+            <div id="Scott">
+                <p>Scott (Yellow)</p><div class="inputLayer"><button class="downArrow arrows">&#9660;</button><input class="cci" type="number"><button class="upArrow arrows" >&#9650;</button></div>
+            </div>
+            <div id="Cox">
+                <p>Cox (Red)</p><div class="inputLayer"><button class="downArrow arrows">&#9660;</button><input class="cci" type="number"><button class="upArrow arrows" >&#9650;</button></div>
+            </div>
+            <div id="Sturt">
+                <p>Sturt (Blue)</p><div class="inputLayer sturtInput"><button class="downArrow arrows" >&#9660;</button><input class="cci" type="number"><button class="upArrow arrows" >&#9650;</button></div>
+                <button onclick="sendScores('override'); disableButton('sendNewButton');" class="cciButton" id="sendNewButton">Override Server Scores</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="users" class="container">
+      <div class="wrapper">
+          <div class="title"><span>Manage Users</span></div>
+          <div class="containerChild" id="allUsers">
+              <p>You can create links that people can use to create an account for this website. <a href="#" onclick="fetchInvites(); toggleAccessControlView()">View active invites</a></p><br>
+              <p>Enter an email below to invite someone</p><input type="text" id="emailInput"> 
+              <button class="cciButton" id="createInviteButton" placeholder="Email (@schools.sa.edu.au)" onclick="createInvite()">Invite</button><br><br>
+              <p>The following people can currently sign into this website and edit scores:</p>
+              <br><div id="userListDiv"><p id="userList"> </p></div>
+          </div>
+          <div class="containerChild" id="allInvites">
+              <p>You are viewing all active invites. If you are looking to view only people who already have an account, <a href="#" onclick="toggleAccessControlView()">click here.</a></p> <br>
+              <div id="inviteListDiv"><p>The people below can create an account using their link:</p><br>
+              <ul id="inviteList"></ul>
+            </div>
+          </div>
+      </div>
+  </div>
+  
+
+      <div id="logs" class="container">
+        <div class="wrapper">
+          <div class="title"><span>Changelogs</span></div>
+          <div class="containerChild">
+            this will have the history of who's changed what
+      </div>
+        </div>
+      </div>
+
+      <div id="more" class="container">
+        <div class="wrapper">
+          <div class="title"><span>More</span></div>
+          <div class="containerChild">
+            nothing here yet i didnt get this far
+      </div>
+        </div>
+      </div>
+
+      <div class="popup" id="popup">
+        <div class="popup-header">
+          <span class="popup-label">Account</span>
+          <span class="close-btn" onclick="hidePopup()">𐌗</span>
+        </div>
+        <div class="popup-content">
+          <button class="setting-btn" id="changePassword" >Change Password</button>
+          <button class="setting-btn" id="logOut">Log Out</button>
+          <button class="setting-btn" id="logOutEverywhere">Log Out Everywhere</button>
+        </div>
+      </div>
+
+      <div id="custom-toast" class="toast">
+        <span id="toast">Error during authentication</span>
+        <button id="dismiss-toast" onclick="dismissToast()">Dismiss</button>
+        <button id="email-toast">Help</button>
+      </div>
+
+    <a href="../" class="scoreboard-btn">Go To Scoreboard</a>
+
+    <script src="../common.js"></script>
+    <script src="manager.js"></script>
+    <script src="cooldots.js"></script>
+</body>
+</html>

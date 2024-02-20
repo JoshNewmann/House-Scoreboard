@@ -176,16 +176,15 @@ sup {
     background-color: #2e6bcc;
 }
 
-.high-contrast .houseCard,
-.high-contrast .position,
 .high-contrast .scores,
 .high-contrast .scoresContainer,
 .high-contrast .teamName,
 .high-contrast sup {
     color: black !important;
-    text-shadow: 
-    -3px -3px 3px rgba(255, 255, 255, 0.5),  
-    3px -3px 3px rgba(255, 255, 255, 0.5),
-    -3px  3px 3px rgba(255, 255, 255, 0.5),
-    3px  3px 3px rgba(255, 255, 255, 0.5);
+    -webkit-text-stroke: 1.5px white;
+}
+
+.high-contrast .scores {
+    color: black !important;
+    -webkit-text-stroke: 1.25px white;
 }

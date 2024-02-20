@@ -108,7 +108,7 @@
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    max-width: 400px;
+    max-width: 390px;
     overflow-wrap: anywhere;
 }
   
@@ -118,4 +118,29 @@
     right: 20px;
     font-size: 16px;
     cursor: pointer;
+}
+
+@media screen and (max-width: 650px) {
+    #popup {
+        width: calc(100vw - 50px);
+        position: absolute;
+        top: 20%;
+        left: auto;
+        right: 5px;
+    }
+
+    .setting-btn {
+        width: 97%;
+        align-items: center;
+        margin-left: 1.5%;
+        height: 50px;
+        border-radius: 100px;
+        font-size: 15px;
+    }
+
+    .popup-label,
+    .close-btn {
+        font-size: 20px;
+        color: white;
+    }
 }

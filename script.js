@@ -1,17 +1,17 @@
-async function fetchScores() {
+async function fetchScores(manualBoolean) {
     try {
         const response = await fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/getscores', {
             method: 'POST'
         });
         const data = await response.json();
-        updateScores(data);
+        updateScores(data, manualBoolean);
         document.querySelector('main').style.display = 'block';
     } catch (error) {
         console.error('Error fetching scores:', error);
     }
 }
 
-function updateScores(scores) {
+function updateScores(scores, manualBoolean) {
     const houses = Object.keys(scores.houses).map((house) => ({
         name: house,
         displayName: scores.houses[house].displayName, // Adding displayName
@@ -68,6 +68,10 @@ function updateScores(scores) {
 
         // Append the card to the main element
         mainElement.appendChild(cardDiv);
+
+        if (manualBoolean == 'true') {
+            changeButtonText('refreshButton', 'Refresh Scores');
+        }
     });
 }
 

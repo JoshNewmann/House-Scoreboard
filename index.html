@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Scoreboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="toast.css">
     <link rel="stylesheet" href="style2.css">
     <link rel="preload" href="./assets/cog-f.svg" as="image">
@@ -71,10 +71,10 @@
     <div class="popup" id="popup">
         <div class="popup-header">
           <span class="popup-label">Options</span>
-          <span class="close-btn" onclick="hidePopup()">✖</span>
+          <span class="close-btn" onclick="hidePopup()">𐌗</span>
         </div>
         <div class="popup-content">
-          <button class="setting-btn" onclick="fetchScores()">Refresh Scores</button>
+          <button class="setting-btn" id="refreshButton" onclick="fetchScores('true')">Refresh Scores</button>
           <button class="setting-btn" id="contrastBtn">High Contrast</button>
           <button class="setting-btn" onclick="alert('Please email Josh.Newman429@schools.sa.edu.au for help with this website')">Help</button>
           <button class="setting-btn" id="manageBtn">Manage</button>
@@ -88,8 +88,8 @@
         <button id="email-toast">Get Help</button>
     </div>
 
-    <script src="toast.js"></script>
+    <script src="common.js"></script>
     <script src="script.js"></script>
-    <script src="settingspopup.js"></script>
+    <script src="popups.js"></script>
 </body>
 </html>
