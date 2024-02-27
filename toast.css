@@ -144,3 +144,11 @@
         color: white;
     }
 }
+
+@media screen and (max-height: 650px) {
+    .popup-container {
+        left: 49.20%;
+    }
+}
+
+
