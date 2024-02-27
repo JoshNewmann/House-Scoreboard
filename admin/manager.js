@@ -66,8 +66,8 @@ window.onload = function() {
     if (token) {
         unhideAdminControls();
         hideContainers();
-        console.log('Authorised!');
         clearURLParameters();
+        validateToken(token);
     } else {
         console.log('Not Authorised. Please Log In.');
         document.getElementById(canvas).style.display = 'block';
@@ -98,6 +98,30 @@ function getToken() {
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
 
+function validateToken(token) {
+    // Make a POST request to the endpoint
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/validateToken', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: token })
+    })
+    .then(response => {
+        if (response.status === 200) {
+            console.log('Authentication request returned 200');
+        } else if (response.status === 401) {
+            // If the response is 401, clear the 'token' cookie and reload the page
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            location.reload();
+        } else {
+            console.log('Unexpected status code:', response.status);
+        }
+    })
+    .catch(error => {
+        console.error('Error sending request:', error);
+    });
+}
 
 function setTokenCookie(token) {
     const oneDayInSeconds = 86400;
