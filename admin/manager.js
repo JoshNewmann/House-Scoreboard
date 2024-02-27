@@ -70,7 +70,6 @@ window.onload = function() {
         validateToken(token);
     } else {
         console.log('Not Authorised. Please Log In.');
-        document.getElementById(canvas).style.display = 'block';
         extractEmailAndInviteCodeFromURL()
     }
 };
