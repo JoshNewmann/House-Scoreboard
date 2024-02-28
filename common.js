@@ -45,30 +45,24 @@ function showPopup2(title, body, body2) {
     var bodyElement2 = document.createElement('i');
     bodyElement2.innerText = body2;
 
-    // Append elements to popup container
     popupContainer.appendChild(closeButton);
     popupContainer.appendChild(titleElement);
     popupContainer.appendChild(lineBreak);
     popupContainer.appendChild(bodyElement);
     popupContainer.appendChild(bodyElement2);
 
-
-    // Append popup container to body
     document.body.appendChild(popupContainer);
   }
 
   function changeButtonText(buttonId, finalText) {
     var button = document.getElementById(buttonId);
     if (button) {
-        // Change text to a tick
         button.disabled = true;
         button.innerText = '✔';
 
-        // Wait for 1 second (1000 milliseconds)
         setTimeout(function() {
-            // Change text back to the final text
             button.innerText = finalText;
             button.disabled = false;
-        }, 1000); // 1000 milliseconds = 1 second
+        }, 1000);
     }
 }
