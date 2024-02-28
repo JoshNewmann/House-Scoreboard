@@ -14,17 +14,15 @@ async function fetchScores(manualBoolean) {
 function updateScores(scores, manualBoolean) {
     const houses = Object.keys(scores.houses).map((house) => ({
         name: house,
-        displayName: scores.houses[house].displayName, // Adding displayName
+        displayName: scores.houses[house].displayName,
         ...scores.houses[house]
     }));
 
     // Sort houses based on points
     houses.sort((a, b) => b.points - a.points);
 
-    // Get the main element where cards are appended
     const mainElement = document.querySelector('main');
 
-    // Clear the main element
     mainElement.innerHTML = '';
 
     // Update scores and rearrange cards
@@ -36,7 +34,6 @@ function updateScores(scores, manualBoolean) {
         const position = index + 1;
         const positionSuffix = position === 1 ? 'st' : position === 2 ? 'nd' : position === 3 ? 'rd' : 'th';
 
-        // Create card elements
         const cardDiv = document.createElement('div');
         cardDiv.classList.add('houseCard');
         cardDiv.id = cardId;
@@ -53,7 +50,7 @@ function updateScores(scores, manualBoolean) {
         const nameHeader = document.createElement('h2');
         nameHeader.classList.add('teamName');
         nameHeader.id = `${house.name}Name`;
-        nameHeader.textContent = house.displayName; // Use displayName
+        nameHeader.textContent = house.displayName;
         nameDiv.appendChild(nameHeader);
         cardDiv.appendChild(nameDiv);
 
@@ -66,7 +63,6 @@ function updateScores(scores, manualBoolean) {
         scoresContainerDiv.appendChild(scoresHeader);
         cardDiv.appendChild(scoresContainerDiv);
 
-        // Append the card to the main element
         mainElement.appendChild(cardDiv);
 
         if (manualBoolean == 'true') {
@@ -74,7 +70,6 @@ function updateScores(scores, manualBoolean) {
         }
     });
 }
-
 
 function startUpdatingScores() {
     fetchScores();

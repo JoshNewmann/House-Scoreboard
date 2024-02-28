@@ -1,4 +1,4 @@
-// Show and Hide Containers
+// CONTAINER VISIBILITY
 function hideContainers() {
     var containers = document.getElementsByClassName('container');
     for (var i = 0; i < containers.length; i++) {
@@ -18,63 +18,7 @@ function unhideAdminControls() {
     });
 }
 
-let ginviteCode
-
-function extractEmailAndInviteCodeFromURL() {
-    var urlParams = new URLSearchParams(window.location.search);
-
-    var email = urlParams.get('email');
-    var inviteCode = urlParams.get('inviteCode');
-
-    if (email && inviteCode) {
-        showContainer('signup');
-        var emailInput = document.getElementById('signupEmail');
-        if (emailInput) {
-            emailInput.value = email;
-        }
-        ginviteCode = inviteCode;    
-
-    } else if (inviteCode && !email) {
-        showContainer('signup')
-        console.log("Invite Code:", inviteCode);
-        ginviteCode = inviteCode
-    } else {
-        showContainer('login')
-    }
-}
-
-function clearURLParameters() {
-    // Get the current URL
-    var url = window.location.href;
-
-    // Check if there are any parameters in the URL
-    if (url.indexOf('?') !== -1) {
-        // Remove parameters and get the base URL
-        var baseUrl = url.substring(0, url.indexOf('?'));
-
-        // Update the URL without parameters
-        window.history.replaceState({}, document.title, baseUrl);
-        
-        console.log("URL parameters cleared.");
-    } else {
-        console.log("No URL parameters to clear.");
-    }
-}
-
-window.onload = function() {
-    const token = getCookie('token');
-    if (token) {
-        unhideAdminControls();
-        hideContainers();
-        clearURLParameters();
-        validateToken(token);
-    } else {
-        console.log('Not Authorised. Please Log In.');
-        extractEmailAndInviteCodeFromURL()
-    }
-};
-
-// Functions to get cookies
+// COOKIE AND TOKEN STUFF
 function getCookie(cookieName) {
     const name = cookieName + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -143,31 +87,77 @@ document.addEventListener('DOMContentLoaded', function() {
     renewTokenCookie();
 });
 
+
+// LOGGING IN AND SIGNING UP
+let ginviteCode // Global invite code
+
+function extractEmailAndInviteCodeFromURL() {
+    var urlParams = new URLSearchParams(window.location.search);
+
+    var email = urlParams.get('email');
+    var inviteCode = urlParams.get('inviteCode');
+
+    if (email && inviteCode) {
+        showContainer('signup');
+        var emailInput = document.getElementById('signupEmail');
+        if (emailInput) {
+            emailInput.value = email;
+        }
+        ginviteCode = inviteCode;    
+
+    } else if (inviteCode && !email) {
+        showContainer('signup')
+        console.log("Invite Code:", inviteCode);
+        ginviteCode = inviteCode
+    } else {
+        showContainer('login')
+    }
+}
+
+function clearURLParameters() {
+    var url = window.location.href;
+
+    if (url.indexOf('?') !== -1) {
+        var baseUrl = url.substring(0, url.indexOf('?'));
+
+        window.history.replaceState({}, document.title, baseUrl);
+    }
+}
+
+window.onload = function() {
+    const token = getCookie('token');
+    if (token) {
+        unhideAdminControls();
+        hideContainers();
+        clearURLParameters();
+        validateToken(token);
+    } else {
+        console.log('Not Authorised. Please Log In.');
+        extractEmailAndInviteCodeFromURL()
+    }
+};
+
 //Authentication
 function signUp() {
     const email = document.querySelector('#signupForm input[name="email"]').value;
     const password = document.querySelector('#signupForm input[name="password"]').value;
     const confirmPassword = document.querySelector('#signupForm input[name="confirmPassword"]').value;
     
-    // Check if any field is undefined
     if (email === undefined || password === undefined || confirmPassword === undefined) {
         console.error('One or more fields are undefined');
         return;
     }
 
-    // Check if password and confirmPassword match
     if (password !== confirmPassword) {
         console.error('Passwords do not match');
         return;
     }
 
-    // Check if password and confirmPassword match
     if (!ginviteCode) {
         alert('Please check you have clicked the link with the invite code');
         return;
     }
 
-    // Create an object to send in the POST request
     const data = {
         email: email,
         password: password,
@@ -190,12 +180,10 @@ function signUp() {
     })
     .then(data => {
         console.log('Sign up successful:', data);
-        // Extract the token from the response data
         const token = data.token;
         setTokenCookie(token);
         console.log('Token:', token);
         location.reload();
-        // Do something with the successful response if needed
     })
     .catch(error => {
         console.error('Error during sign up:', error);
@@ -206,13 +194,11 @@ function signUp() {
 function signIn() {
     const email = document.querySelector('#signinForm input[name="email"]').value;
     const password = document.querySelector('#signinForm input[name="password"]').value;    
-    // Check if any field is undefined
     if (email === undefined || password === undefined) {
         console.error('One or more fields are undefined');
         return;
     }
 
-    // Create an object to send in the POST request
     const data = {
         email: email,
         password: password,
@@ -233,12 +219,10 @@ function signIn() {
     })
     .then(data => {
         console.log('Sign in successful:', data);
-        // Extract the token from the response data
         const token = data.token;
         setTokenCookie(token);
         console.log('Token:', token);
 		location.reload();
-        // Do something with the successful response if needed
     })
     .catch(error => {
         console.error('Error during sign in:', error);
@@ -250,8 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const signUpButton = document.querySelector('#signupForm input[type="submit"]');
     
     signUpButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default form submission
-        signUp(); // Call the signUp function to handle the form submission
+        event.preventDefault();
+        signUp();
     });
 });
 
@@ -259,23 +243,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const signInButton = document.querySelector('#signinForm input[type="submit"]');
     
     signInButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
         signIn(); 
     });
 });
 
-//Admin Controls - Buttons
+//ADMIN CONTROLS - BUTTONS
 
 const buttons = document.querySelectorAll('.adminControls button');
 
 buttons.forEach(button => {
     button.addEventListener('click', function() {
-        // Remove the 'active' class from all buttons
         buttons.forEach(btn => {
             btn.classList.remove('active');
         });
 
-        // Add the 'active' class to the clicked button
         this.classList.add('active');
     });
 });
@@ -292,22 +274,17 @@ function restrictNumericInput() {
     });
 }
 
-// Call the function to apply the restriction
 restrictNumericInput();
 
-// Get all arrow buttons
 var arrowButtons = document.querySelectorAll(".arrows");
 
-// Add event listener to each arrow button
 arrowButtons.forEach(function(button) {
     button.addEventListener("click", function() {
-        // Add the "clicked" class to change the background color
         button.classList.add("clicked");
 
-        // Remove the "clicked" class after a short delay
         setTimeout(function() {
             button.classList.remove("clicked");
-        }, 200); // Adjust the delay time as needed
+        }, 200);
     });
 });
 
@@ -315,24 +292,19 @@ var allArrowButtons = document.querySelectorAll('.upArrow, .downArrow, .aupArrow
 
 allArrowButtons.forEach(function(button) {
     button.addEventListener("click", function() {
-        // Get the input field next to the clicked button
         var inputField = button.parentElement.querySelector("input[type='number']");
 
-        // Check if the input field exists and it's not empty
         if (inputField && inputField.value !== "") {
-            // Increment or decrement the value based on the arrow button clicked
             if (button.classList.contains("upArrow") || button.classList.contains("aupArrow")) {
-                // Increment the value by 1 if it's the up arrow button
                 inputField.value = parseInt(inputField.value) + 1;
             } else if (button.classList.contains("downArrow") || button.classList.contains("adownArrow")) {
-                // Decrement the value by 1 if it's the down arrow button
                 inputField.value = parseInt(inputField.value) - 1;
             }
         }
     });
 });
 
-//Admin Controls - Scoring
+//SCORE TAB
 
 async function fetchScores() {
     try {
@@ -354,7 +326,6 @@ function updateScores(data) {
         const displayName = houses[house].displayName;
         const points = houses[house].points;
         
-        // Check if the displayName is in the allowedIDs array
         if (allowedIDs.includes(displayName)) {
             const inputField = document.querySelector(`#${displayName} input`);
             if (inputField) {
@@ -366,27 +337,24 @@ function updateScores(data) {
     changeButtonText('gsfs', 'Get Scores from server');
 }
 
-// Call the function to extract and store email and inviteCode
 extractEmailAndInviteCodeFromURL();
 
 function sendScores(operation) {
-  // Get input values
   var onkaScore, scottScore, coxScore, sturtScore;
 
   if (getComputedStyle(document.getElementById("updateScores")).display !== "none") {
-      // If #updateScores is visible, use elements with IDs starting with 'a'
+      // Add to the score
       onkaScore = document.getElementById("aOnka").querySelector("input").value;
       scottScore = document.getElementById("aScott").querySelector("input").value;
       coxScore = document.getElementById("aCox").querySelector("input").value;
       sturtScore = document.getElementById("aSturt").querySelector("input").value;
   } else {
-      // Otherwise, use elements with IDs starting without 'a'
+      // Override the score
       onkaScore = document.getElementById("Onka").querySelector("input").value;
       scottScore = document.getElementById("Scott").querySelector("input").value;
       coxScore = document.getElementById("Cox").querySelector("input").value;
       sturtScore = document.getElementById("Sturt").querySelector("input").value;
   }
-  // Construct payload
 
   var token = getToken();
 
@@ -399,7 +367,6 @@ function sendScores(operation) {
     token: token
   };
 
-  // Send data to server
   fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/updatescore', {
     method: 'POST',
     headers: {
@@ -427,10 +394,8 @@ function sendScores(operation) {
 }
 
 function resetInputsToZero() {
-    // IDs of the input fields
     const inputIds = ['aOnka', 'aScott', 'aCox', 'aSturt'];
 
-    // Loop through each input field ID and set its value to 0
     inputIds.forEach((id) => {
         const inputField = document.getElementById(id).querySelector('input');
         if (inputField) {
@@ -455,15 +420,15 @@ function uds() {
 }
 
 function zeroIfEmpty() {
-    var inputs = document.querySelectorAll('.cci'); // Get all input elements with class 'cci'
-    inputs.forEach(function(input) { // Loop through each input element
-        if (input.value === '') { // Check if input value is empty
-            input.value = '0'; // Set input value to '0'
+    var inputs = document.querySelectorAll('.cci');
+    inputs.forEach(function(input) {
+        if (input.value === '') {
+            input.value = '0';
         }
     });
 }
 
-//Admin Controls - Access Control
+//USERS TAB
 
 function toggleAccessControlView() {
     const allUsersContainer = document.getElementById('allUsers');
@@ -496,35 +461,29 @@ function getUsers() {
         return response.json();
     })
     .then(data => {
-        // Extract valid emails from the response
         const validEmails = data.validEmails;
 
-        // Get the container to display users
         const usersContainer = document.getElementById('userList');
 
-        // Create a list element to contain the valid emails
         const userList = document.createElement('ul');
 
-        // Add each valid email as a list item
         validEmails.forEach(email => {
             const listItem = document.createElement('li');
             listItem.textContent = email;
             userList.appendChild(listItem);
         });
 
-        // Clear any existing content and append the list of users
         usersContainer.innerHTML = '';
         usersContainer.appendChild(userList);
     })
     .catch(error => {
         console.error('Error fetching valid emails:', error.message);
-        // You can handle errors here, such as displaying an error message to the user
     });
 }
 
 function createInvite() {
     const token = getToken();
-    const emailInput = document.querySelector('#emailInput'); // Retrieve the input element
+    const emailInput = document.querySelector('#emailInput');
 
     fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/createInvite', {
         method: 'POST',
@@ -535,16 +494,13 @@ function createInvite() {
     })
     .then(response => response.json())
     .then(data => {
-        // Extract email, inviteCode, and name from the response data
         const { email, inviteCode } = data;
         const name = getEmailName(email);
 
-        // Use email, inviteCode, and name variables as needed
         console.log('Email:', email);
         console.log('Invite Code:', inviteCode);
         console.log('Name:', name);
 
-        // Further processing
         console.log('Invite created:', data);
         changeButtonText('createInviteButton', 'Invite');
         emailInput.value = '';
@@ -553,19 +509,15 @@ function createInvite() {
     .catch(error => console.error('Error creating invite:', error));
 }
 
-// Function to extract name from email
 function getEmailName(email) {
-    // Extract name from email address
     const atIndex = email.indexOf('@');
-    let name = email.substring(0, atIndex); // Extract characters before '@'
-    name = name.replace(/\d+/g, ''); // Remove numbers
-    name = name.replace('.', ' '); // Replace dots with spaces
-    name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '); // Capitalize first letters of each word
+    let name = email.substring(0, atIndex); 
+    name = name.replace(/\d+/g, '');
+    name = name.replace('.', ' ');
+    name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     return name;
 }
 
-
-// Function to fetch all invites
 function fetchInvites() {
     const token = getToken();
 
@@ -584,14 +536,13 @@ function fetchInvites() {
     .catch(error => console.error('Error fetching invites:', error));
 }
 
-// Function to display invites
 function displayInvites(invites) {
     const inviteList = document.getElementById('inviteList');
     inviteList.innerHTML = '';
 
     invites.forEach(invite => {
         const listItem = document.createElement('li');
-        listItem.classList.add('inviteList'); // Adding the class inviteList
+        listItem.classList.add('inviteList');
 
         listItem.textContent = `Email: ${invite.email}, Invite Code: ${invite.inviteCode}`;
 
@@ -618,25 +569,22 @@ function displayInvites(invites) {
     });
 }
 
-// Function to revoke an invite
 function revokeInvite(inviteCode) {
     const token = getToken();
 
     fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/revokeInvite', {
-        method: 'POST', // Changed method to POST
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ token: token, inviteCode: inviteCode }) // Changed from inviteId to inviteCode
+        body: JSON.stringify({ token: token, inviteCode: inviteCode })
     })
     .then(response => {
         if (response.ok) {
             console.log('Invite revoked successfully');
-            // Refresh invite list after revoking
             fetchInvites();
         } else {
             console.error('Failed to revoke invite');
-            // Handle failure message or action
         }
     })
     .catch(error => console.error('Error revoking invite:', error));
@@ -658,4 +606,6 @@ function scoreButton() {
     restrictNumericInput();
 }
 
-//Admin Controls - Log
+//LOG TAB
+
+//MORE TAB
