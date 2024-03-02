@@ -234,10 +234,9 @@ input[type="number"]:hover {
 
 input[type="number"]:focus {
     font-weight: 700;
-    outline: none; /* Remove default focus outline */
+    outline: none;
 }
 
-/* Chrome, Safari, Edge, Opera */
 #emailInput,
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -245,7 +244,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* Firefox */
 #emailInput,
 input[type=number] {
   -moz-appearance: textfield;
@@ -274,8 +272,8 @@ input[type=number] {
     height: 100%;
     width: 100%;
     outline: none;
-    padding-left: 60px;
-    border-radius: 5px;
+    padding-left: 57px;
+    border-radius: 500px;
     border: 1px solid lightgrey;
     font-size: 16px;
     transition: all 0.3s ease;
@@ -291,16 +289,20 @@ form .row input::placeholder {
 
 .wrapper form .row i {
     position: absolute;
-    width: 47px;
+    width: 45px;
     height: 100%;
     color: #fff;
     font-size: 18px;
     background: #ca53c2;
     border: 1px solid #ca53c2;
-    border-radius: 5px 0 0 5px;
+    border-radius: 500px 500px 500px 500px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.icon svg {
+    width: 24px;
 }
 
 .wrapper form .pass {
@@ -394,16 +396,30 @@ form .signup-link a:hover {
     background-color: #9c3d9b;
 }
 
-/* Left icon */
 header > *:first-child {
-    margin-left: 18px;
+    margin-left: 16px;
 }
 
-/* Right icon */
 header > *:nth-last-child(1) {
-    margin-right: 18px;
+    margin-right: 16px;
 }
 
+.logDate {
+    font-weight: bold;
+    padding-bottom: 5px;
+    font-size: 16px;
+  }
+  
+.logDetails {
+    padding-bottom: 5px;
+    font-size: 16px;
+    user-select: none;
+    color: #9c3d9b;
+}
+
+.logSummary {
+    color: black;
+}
 @media screen and (max-width: 650px) {
     canvas {
         display: none;

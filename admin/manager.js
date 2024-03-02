@@ -607,5 +607,59 @@ function scoreButton() {
 }
 
 //LOG TAB
+function clearLogContainer() {
+    const logContainer = document.getElementById('logContainer');
+    logContainer.innerHTML = ''; // Clears all child elements
+  }
 
+function displayLogs() {
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/getUserLogs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.text())
+      .then(data => {
+        const logs = data.split('\n').reverse();
+        const logContainer = document.getElementById('logContainer');
+        let currentDate = null;
+
+        logs.forEach(log => {
+          if (!log.trim()) return;
+
+          const parts = log.split(';');
+          if (parts.length < 3) return;
+
+          const logDate = new Date(parts[0]).toLocaleDateString('en-AU');
+          const logTime = new Date(parts[0]).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+          const logSummary = parts[1];
+          const logText = parts[2];
+
+          if (logDate !== currentDate) {
+            currentDate = logDate;
+            const dateHeading = document.createElement('p');
+            dateHeading.classList.add('logDate');
+            dateHeading.textContent = logDate;
+            logContainer.appendChild(dateHeading);
+          }
+
+          const details = document.createElement('details');
+          details.classList.add('logDetails');
+
+          const summary = document.createElement('summary');
+          summary.classList.add('logSummary');
+          summary.textContent = `${logTime} - ${logSummary}`;
+
+          const logTextElement = document.createTextNode(logText);
+
+          details.appendChild(summary);
+          details.appendChild(logTextElement);
+
+          logContainer.appendChild(details);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+    }
+    
 //MORE TAB

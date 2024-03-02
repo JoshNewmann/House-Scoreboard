@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../common.css">
     <link rel="stylesheet" href="../toast.css">
     <link rel="stylesheet" href="./manager.css">
+    <link rel="preload" href="../assets/user-square.svg" as="image">
 </head>
 <body>
     <header>
@@ -14,7 +15,7 @@
       <h3>Scoreboard Manager</h3>
       <img class="headerLogo" id="Cog" src="../assets/user-circle.svg" alt="options" draggable="false" onclick="showPopup()">
     </header>
-    
+
     <div id="login" class="container unauth">
         <div class="wrapper">
           <div class="title"><span>Log In</span></div>
@@ -74,7 +75,7 @@
       <div class="adminControls">
         <button onclick="scoreButton()">Score</button>
         <button onclick="usersButton()">Users</button>
-        <button onclick="showContainer('logs')">Logs</button>
+        <button onclick="showContainer('logs'); clearLogContainer(); displayLogs();">Logs</button>
         <button onclick="showContainer('more')">More</button>
       </div>
 
@@ -137,14 +138,12 @@
   </div>
   
 
-      <div id="logs" class="container">
-        <div class="wrapper">
-          <div class="title"><span>Changelogs</span></div>
-          <div class="containerChild">
-            this will have the history of who's changed what
-      </div>
-        </div>
-      </div>
+  <div id="logs" class="container">
+    <div class="wrapper">
+      <div class="title"><span>History</span></div>
+      <div id="logContainer" class="containerChild"></div>
+    </div>
+  </div>
 
       <div id="more" class="container">
         <div class="wrapper">
@@ -162,8 +161,8 @@
         </div>
         <div class="popup-content">
           <button class="setting-btn" id="changePassword" >Change Password</button>
-          <button class="setting-btn" id="logOut">Log Out</button>
-          <button class="setting-btn" id="logOutEverywhere">Log Out Everywhere</button>
+          <button class="setting-btn" onclick="signOut('false')" id="logOut">Log Out</button>
+          <button class="setting-btn" onclick="signOut('true')" id="logOutEverywhere">Log Out Everywhere</button>
         </div>
       </div>
 
@@ -174,8 +173,9 @@
       </div>
 
     <a href="../" class="scoreboard-btn">Go To Scoreboard</a>
-
+    
+    <script src="./accountmenu.js"></script>
     <script src="../common.js"></script>
-    <script src="manager.js"></script>
+    <script src="./manager.js"></script>
 </body>
 </html>

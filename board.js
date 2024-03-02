@@ -58,7 +58,7 @@ document.getElementById("licenseBtn").addEventListener("click", function() {
 
 // Manage Button
 document.getElementById("manageBtn").addEventListener("click", function() {
-    window.location.href = "./admin";
+    window.location.href = "./admin/";
 });
 
 // Setting Buttons
