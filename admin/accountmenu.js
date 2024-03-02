@@ -26,11 +26,11 @@ function unfillCog() {
 // Show and Hide Popup Functions
 function showPopup() {
     document.getElementById("popup").style.display = "block";
-    fillCog()
+    fillCog();
 }
 function hidePopup() {
     document.getElementById("popup").style.display = "none";
-    unfillCog()
+    unfillCog();
 }
 
 // Event listener for Esc key
