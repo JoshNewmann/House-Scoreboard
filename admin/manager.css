@@ -420,6 +420,13 @@ header > *:nth-last-child(1) {
 .logSummary {
     color: black;
 }
+
+#logContainer {
+    max-height: 450px;
+    overflow-y: scroll;
+    padding: 20px 4px 20px 20px;
+}
+
 @media screen and (max-width: 650px) {
     canvas {
         display: none;
@@ -445,6 +452,10 @@ header > *:nth-last-child(1) {
 
     .popup-container {
         width: calc(100vw - 20px);
+    }
+
+    #logContainer {
+        padding: 20px 10px 20px 10px;
     }
 }
 

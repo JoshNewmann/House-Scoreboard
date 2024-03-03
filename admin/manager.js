@@ -661,5 +661,11 @@ function displayLogs() {
       })
       .catch(error => console.error('Error:', error));
     }
-    
+
+const logContainer = document.getElementById('logContainer');
+const scrollbarTrack = document.createElement('div');
+scrollbarTrack.classList.add('scrollbar-track');
+logContainer.appendChild(scrollbarTrack);
+
+
 //MORE TAB
