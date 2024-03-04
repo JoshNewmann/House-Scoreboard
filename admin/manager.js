@@ -52,7 +52,9 @@ function validateToken(token) {
     })
     .then(response => {
         if (response.status === 200) {
-            console.log('Authentication request returned 200');
+            scoreButton();
+            const defaultButton = document.getElementById('defaultAdminButton')
+            defaultButton.classList.add('active');
         } else if (response.status === 401) {
             // If the response is 401, clear the 'token' cookie and reload the page
             document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
@@ -590,6 +592,13 @@ function revokeInvite(inviteCode) {
     .catch(error => console.error('Error revoking invite:', error));
 }
 
+function scoreButton() {
+	showContainer('score');
+    uds();
+    fetchScores();
+    restrictNumericInput();
+}
+
 function usersButton() {
     const allUsersContainer = document.getElementById('allUsers');
     const allInvitesContainer = document.getElementById('allInvites');
@@ -597,13 +606,6 @@ function usersButton() {
     getUsers();
     allUsersContainer.style.display = 'block';
     allInvitesContainer.style.display = 'none';
-}
-  
-function scoreButton() {
-	showContainer('score');
-    uds();
-    fetchScores();
-    restrictNumericInput();
 }
 
 //LOG TAB
@@ -624,6 +626,8 @@ function displayLogs() {
         const logs = data.split('\n').reverse();
         const logContainer = document.getElementById('logContainer');
         let currentDate = null;
+
+        clearLogContainer();
 
         logs.forEach(log => {
           if (!log.trim()) return;
@@ -661,11 +665,6 @@ function displayLogs() {
       })
       .catch(error => console.error('Error:', error));
     }
-
-const logContainer = document.getElementById('logContainer');
-const scrollbarTrack = document.createElement('div');
-scrollbarTrack.classList.add('scrollbar-track');
-logContainer.appendChild(scrollbarTrack);
 
 
 //MORE TAB

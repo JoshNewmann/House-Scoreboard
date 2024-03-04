@@ -469,3 +469,7 @@ header > *:nth-last-child(1) {
     }
     
 }
+
+.container {
+    display: none;
+}
