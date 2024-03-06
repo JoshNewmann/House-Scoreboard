@@ -75,7 +75,7 @@
       
       <div class="adminControls">
         <button id="defaultAdminButton" onclick="scoreButton()">Score</button>
-        <button onclick="showContainer('contributors')">Users</button>
+        <button onclick="showContainer('contributions')">Requests</button>
         <button onclick="showContainer('logs'); displayLogs();">Logs</button>
         <button onclick="showContainer('more')">More</button>
       </div>
@@ -103,6 +103,8 @@
             </div>
             <div id="aSturt">
                 <p>Sturt (Blue)</p><div class="inputLayer sturtInput"><button class="adownArrow arrows" >&#9660;</button><input class="cci" type="number"><button class="aupArrow arrows" >&#9650;</button></div>
+                <p>Comment</p>
+                <input type="text" id="comment"><br>
                 <button onclick="sendScores('update')" class="cciButton" id="updateButton">Update Scores</button>
             </div>
           </div>
@@ -126,11 +128,11 @@
       </div>
     </div>
 
-    <div id="contributors" class="container">
+    <div id="contributions" class="container">
       <div class="wrapper">
-          <div class="title"><span>Manage Contributors</span></div>
+          <div class="title"><span>Contributions</span></div>
           <div class="containerChild">
-            admin users management moved to more tab
+            <p>Requests to modify the scores are displayed below:</p>
             </div>
           </div>
       </div>
@@ -181,7 +183,7 @@
       <div class="wrapper">
           <div class="title"><span>My Requests</span></div>
           <div class="containerChild">
-            This will list all someones requests
+            <p>Your pending requests to add scores are displayed below</p>
       </div>
   </div>
 

@@ -72,10 +72,6 @@ canvas {
     text-align: center;
 }
 
-.adminControls button {
-    width: 22.5%;
-}
-
 .userControls button {
     width: 31%;
 }
@@ -114,6 +110,12 @@ canvas {
     border-radius: 35px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.adminControls button {
+    width: 22.5%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .inviteButtons {
@@ -223,7 +225,8 @@ p {
 }
 
 #emailInput,
-input[type="number"] {
+input[type="number"],
+#comment {
     padding: 8px;
     border: 1px solid #aaa;
     border-radius: 100px;
@@ -233,17 +236,26 @@ input[type="number"] {
 }
 
 #emailInput:hover,
-input[type="number"]:hover {
+input[type="number"]:hover,
+#comment:hover {
     border-color: #ca53c2;
 }
 
-#emailInput:focus {
+#emailInput:focus,
+#comment:focus {
     outline: none;
 }
 
 input[type="number"]:focus {
     font-weight: 700;
     outline: none;
+}
+
+#comment {
+    width: calc(50% + 80px);
+    margin-bottom: 10px;
+    min-height: 36px;
+    height: fit-content;
 }
 
 #emailInput,
@@ -264,7 +276,7 @@ input[type=number] {
 }
 
 .sturtInput {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .wrapper form {

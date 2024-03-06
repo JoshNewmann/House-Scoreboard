@@ -59,11 +59,13 @@ function getToken() {
     })
     .then(response => {
         if (response.status === 200) {
+            unhideAdminControls();
             scoreButton();
             const defaultButton = document.getElementById('defaultAdminButton');
             defaultButton.classList.add('active');
             localStorage.setItem('accountType', 'admin');
         } else if (response.status === 202) {
+            unhideUserControls();
             scoreButton();
             localStorage.setItem('accountType', 'contributor');
             const defaultButton = document.getElementById('defaultUserButton');
@@ -178,6 +180,8 @@ window.onload = function() {
         extractEmailAndInviteCodeFromURL();
     }
 };
+
+
 
 //Authentication
 function signUp() {
@@ -389,6 +393,7 @@ extractEmailAndInviteCodeFromURL();
 
 function sendScores(operation) {
   var onkaScore, scottScore, coxScore, sturtScore;
+  var comment = document.getElementById("comment").value;
 
   if (getComputedStyle(document.getElementById("updateScores")).display !== "none") {
       // Add to the score
@@ -408,6 +413,7 @@ function sendScores(operation) {
 
   var payload = {
     operation: operation,
+    comment: comment,
     green: onkaScore,
     yellow: scottScore,
     red: coxScore,
@@ -432,7 +438,7 @@ function sendScores(operation) {
     console.log('Scores sent successfully:', data);
     changeButtonText('updateButton', 'Update Scores');
     changeButtonText('sendNewButton', 'Overide Server Scores');
-    if (operation = 'update') {
+    if (operation === 'update') {
         resetInputsToZero()
     } 
   })
@@ -451,6 +457,12 @@ function resetInputsToZero() {
         }
     });
 }
+
+function clearCommentInput() {
+    document.getElementById("comment").value = "";
+}
+
+clearCommentInput();
 
 function ors() {
     var overrideScores = document.getElementById("overrideScores");
@@ -660,15 +672,15 @@ function clearLogContainer() {
     logContainer.innerHTML = ''; // Clears all child elements
   }
 
-function displayLogs() {
+  function displayLogs() {
     fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/getUserLogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         }
-      })
-      .then(response => response.text())
-      .then(data => {
+    })
+    .then(response => response.text())
+    .then(data => {
         const logs = data.split('\n').reverse();
         const logContainer = document.getElementById('logContainer');
         let currentDate = null;
@@ -676,41 +688,105 @@ function displayLogs() {
         clearLogContainer();
 
         logs.forEach(log => {
-          if (!log.trim()) return;
+            if (!log.trim()) return;
 
-          const parts = log.split(';');
-          if (parts.length < 3) return;
+            const parts = log.split(';');
+            if (parts.length < 4) return;
 
-          const logDate = new Date(parts[0]).toLocaleDateString('en-AU');
-          const logTime = new Date(parts[0]).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-          const logSummary = parts[1];
-          const logText = parts[2];
+            const logDate = new Date(parts[0]).toLocaleDateString('en-AU');
+            const logTime = new Date(parts[0]).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            const logSummary = parts[1];
+            const logScores = parts[2];
+            const logComment = parts[3];
 
-          if (logDate !== currentDate) {
-            currentDate = logDate;
-            const dateHeading = document.createElement('p');
-            dateHeading.classList.add('logDate');
-            dateHeading.textContent = logDate;
-            logContainer.appendChild(dateHeading);
-          }
+            if (logDate !== currentDate) {
+                currentDate = logDate;
+                const dateHeading = document.createElement('p');
+                dateHeading.classList.add('logDate');
+                dateHeading.textContent = logDate;
+                logContainer.appendChild(dateHeading);
+            }
 
-          const details = document.createElement('details');
-          details.classList.add('logDetails');
+            const details = document.createElement('details');
+            details.classList.add('logDetails');
 
-          const summary = document.createElement('summary');
-          summary.classList.add('logSummary');
-          summary.textContent = `${logTime} - ${logSummary}`;
+            const summary = document.createElement('summary');
+            summary.classList.add('logSummary');
+            summary.textContent = `${logTime} - ${logSummary}`;
 
-          const logTextElement = document.createTextNode(logText);
+            const logScoresElement = document.createTextNode(logScores);
 
-          details.appendChild(summary);
-          details.appendChild(logTextElement);
+            // Create a div to hold scores and comment
+            const contentDiv = document.createElement('div');
 
-          logContainer.appendChild(details);
+            // Add scores to the div
+            const scoresParagraph = document.createElement('p');
+            scoresParagraph.textContent = logScores;
+
+            // Add comment to the div
+            const commentParagraph = document.createElement('p');
+            commentParagraph.textContent = `Comment: ${logComment}`;
+
+            // Append scores and comment to the div
+            contentDiv.appendChild(scoresParagraph);
+            contentDiv.appendChild(commentParagraph);
+
+            // Append the div to the details element
+            details.appendChild(summary);
+            details.appendChild(contentDiv);
+
+            logContainer.appendChild(details);
         });
-      })
-      .catch(error => console.error('Error:', error));
-    }
+    })
+    .catch(error => console.error('Error:', error));
+}
 
+function displayContributions() {
+    const token = getToken();
+    
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/getContributions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: token })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const contributionsContainer = document.querySelector('#contributions .containerChild');
+
+        data.contributions.forEach(contribution => {
+            const contributionItem = document.createElement('div');
+            contributionItem.classList.add('contributionItem');
+        
+            // Get the requester's name from the contributor's email
+            let requesterName = getEmailName(contribution.contributor);
+        
+            // Create header
+            const header = document.createElement('p');
+            header.textContent = `${requesterName} is requesting to add scores for: ${contribution.comment}`;
+            contributionItem.appendChild(header);
+        
+            // Create list for scores
+            const scoresList = document.createElement('ul');
+            const onkaScore = document.createElement('li');
+            onkaScore.textContent = `Onka: ${contribution.Onka}`;
+            scoresList.appendChild(onkaScore);
+            const scottScore = document.createElement('li');
+            scottScore.textContent = `Scott: ${contribution.Scott}`;
+            scoresList.appendChild(scottScore);
+            const coxScore = document.createElement('li');
+            coxScore.textContent = `Cox: ${contribution.Cox}`;
+            scoresList.appendChild(coxScore);
+            const sturtScore = document.createElement('li');
+            sturtScore.textContent = `Sturt: ${contribution.Sturt}`;
+            scoresList.appendChild(sturtScore);
+        
+            contributionItem.appendChild(scoresList);
+            contributionsContainer.appendChild(contributionItem);
+        });
+    })
+    .catch(error => console.error('Error fetching contributions:', error));
+}
 
 //MORE TAB
