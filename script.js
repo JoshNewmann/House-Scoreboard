@@ -12,10 +12,9 @@ async function fetchScores(manualBoolean) {
 }
 
 function updateScores(scores, manualBoolean) {
-    const houses = Object.keys(scores.houses).map((house) => ({
+    const houses = Object.keys(scores.total).map((house) => ({
         name: house,
-        displayName: scores.houses[house].displayName,
-        ...scores.houses[house]
+        points: scores.total[house].points
     }));
 
     // Sort houses based on points
@@ -50,7 +49,7 @@ function updateScores(scores, manualBoolean) {
         const nameHeader = document.createElement('h2');
         nameHeader.classList.add('teamName');
         nameHeader.id = `${house.name}Name`;
-        nameHeader.textContent = house.displayName;
+        nameHeader.textContent = house.name; // Just use the name, not displayName
         nameDiv.appendChild(nameHeader);
         cardDiv.appendChild(nameDiv);
 
@@ -65,7 +64,7 @@ function updateScores(scores, manualBoolean) {
 
         mainElement.appendChild(cardDiv);
 
-        if (manualBoolean == 'true') {
+        if (manualBoolean === 'true') {
             changeButtonText('refreshButton', 'Refresh Scores');
         }
     });

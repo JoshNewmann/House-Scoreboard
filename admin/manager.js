@@ -314,19 +314,18 @@ async function fetchScores() {
             method: 'POST'
         });
         const data = await response.json();
-        updateScores(data);
+        updateScores(data.total);
     } catch (error) {
         console.error('Error fetching scores:', error);
     }
 }
 
-function updateScores(data) {
+function updateScores(scores) {
     const allowedIDs = ['Onka', 'Scott', 'Cox', 'Sturt'];
 
-    const houses = data.houses;
-    Object.keys(houses).forEach((house) => {
-        const displayName = houses[house].displayName;
-        const points = houses[house].points;
+    Object.keys(scores).forEach((house) => {
+        const displayName = house;
+        const points = scores[house].points;
         
         if (allowedIDs.includes(displayName)) {
             const inputField = document.querySelector(`#${displayName} input`);

@@ -80,7 +80,8 @@
     border-radius: 20px;
     margin-bottom: 10px;
     cursor: pointer;
-    transition: background-color 0.1s
+    transition: background-color 0.1s;
+    max-height: 32px;
 }
 
 .setting-btn:hover {
