@@ -36,6 +36,7 @@
             <div class="row button">
               <input type="submit" value="Login" id="loginButton">
             </div>
+            <div class="signup-link sl-first">Don't have an account? <a href="#" onclick="showContainer('signup')">Create One</a></div>
             <div class="signup-link">Need help logging in? <a href="#" onclick="window.location.href = 'mailto:Josh.Newman429@schools.sa.edu.au'">Click Here</a></div>
           </form>
         </div>
@@ -66,24 +67,31 @@
             <div class="row button">
               <input type="submit" value="Sign Up" id="signupButton">
             </div>
+            <div class="signup-link sl-first" id="haveAccountLink">Already have an account? <a href="#" onclick="showContainer('login')">Log In</a></div>
             <div class="signup-link" id="helpSigningUpLink">Need help signing up? <a href="#" onclick="window.location.href = 'mailto:Josh.Newman429@schools.sa.edu.au'">Click Here</a></div>
-            <div class="signup-link" id="haveAccountLink">Already have an account? <a href="#" onclick="showContainer('login')">Log In</a></div>
           </form>
         </div>
       </div>
       
       <div class="adminControls">
         <button id="defaultAdminButton" onclick="scoreButton()">Score</button>
-        <button onclick="usersButton()">Users</button>
+        <button onclick="showContainer('contributors')">Users</button>
         <button onclick="showContainer('logs'); displayLogs();">Logs</button>
         <button onclick="showContainer('more')">More</button>
+      </div>
+
+      <div class="userControls">
+        <button id="defaultUserButton" onclick="scoreButton()">Score</button>
+        <button onclick="showContainer('logs'); displayLogs();">Logs</button>
+        <button onclick="showContainer('myrequests')">My Requests</button>
       </div>
 
       <div id="score" class="container">
         <div class="wrapper">
           <div class="title"><span>Modify Scores</span></div>
             <div class="containerChild" id="updateScores">
-              <p>Values entered here will be added or subtracted to the respective teams. If you want to override scores instead, <a href="#" onclick="ors(); fetchScores();">click here</a></p><br>
+              <p class="adminOnly">Values entered here will be added or subtracted to the respective teams. If you want to override scores instead, <a href="#" onclick="ors(); fetchScores();">click here</a></p>
+              <p class="userOnly">Values entered here will be added or subtracted to the respective teams.</p><br>
               <div id="aOnka">
                 <p>Onka (Green)</p><div class="inputLayer"><button class="adownArrow arrows">&#9660;</button><input class="cci" type="number"><button class="aupArrow arrows" >&#9650;</button></div>
             </div>
@@ -118,20 +126,11 @@
       </div>
     </div>
 
-    <div id="users" class="container">
+    <div id="contributors" class="container">
       <div class="wrapper">
-          <div class="title"><span>Manage Users</span></div>
-          <div class="containerChild" id="allUsers">
-              <p>You can create links that people can use to create an account for this website. <a href="#" onclick="fetchInvites(); toggleAccessControlView()">View active invites</a></p><br>
-              <p>Enter an email below to invite someone</p><input type="text" id="emailInput"> 
-              <button class="cciButton" id="createInviteButton" placeholder="Email (@schools.sa.edu.au)" onclick="createInvite()">Invite</button><br><br>
-              <p>The following people can currently sign into this website and edit scores:</p>
-              <br><div id="userListDiv"><p id="userList"> </p></div>
-          </div>
-          <div class="containerChild" id="allInvites">
-              <p>You are viewing all active invites. If you are looking to view only people who already have an account, <a href="#" onclick="toggleAccessControlView()">click here.</a></p> <br>
-              <div id="inviteListDiv"><p>The people below can create an account using their link:</p><br>
-              <ul id="inviteList"></ul>
+          <div class="title"><span>Manage Contributors</span></div>
+          <div class="containerChild">
+            admin users management moved to more tab
             </div>
           </div>
       </div>
@@ -149,11 +148,42 @@
         <div class="wrapper">
           <div class="title"><span>More</span></div>
           <div class="containerChild">
-            <div class="moreListItem">Manage Admin Users ➜</div>
+            <p>The functionality for these buttons (except for the manage admin users one) is still a work in progress (:</p><br>
             <div class="moreListItem">View Detailed Logs ➜</div>
+            <div class="moreListItem" onclick="usersButton()">Manage Admin Users ➜</div>
+            <div class="moreListItem">Manage Contributors ➜</div>
+            <div class="moreListItem">Manage Events ➜</div>
       </div>
         </div>
       </div>
+
+      <div id="users" class="container">
+        <div class="wrapper">
+            <div class="title"><span>Manage Admin Users</span></div>
+            <div class="containerChild" id="allUsers">
+                <p class="backButton" onclick="showContainer('more')"><span class="leftArrow">↩</span> Go Back</p>
+                <p>You can create links that people can use to create an account for this website. <a href="#" onclick="fetchInvites(); toggleAccessControlView()">View active invites</a></p><br>
+                <p>Enter an email below to invite someone</p><input type="text" id="emailInput"> 
+                <button class="cciButton" id="createInviteButton" placeholder="Email (@schools.sa.edu.au)" onclick="createInvite()">Invite</button><br><br>
+                <p>The following people can currently sign into this website and edit scores:</p>
+                <br><div id="userListDiv"><p id="userList"> </p></div>
+            </div>
+            <div class="containerChild" id="allInvites">
+              <p class="backButton" onclick="toggleAccessControlView()"><span class="leftArrow">↩</span> Go Back</p>
+                <div id="inviteListDiv"><p>The people below can create an account using their respective link. This account will have all permissions, including editing scores without approval:</p><br>
+                <ul id="inviteList"></ul>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myrequests" class="container">
+      <div class="wrapper">
+          <div class="title"><span>My Requests</span></div>
+          <div class="containerChild">
+            This will list all someones requests
+      </div>
+  </div>
 
       <div class="popup" id="popup">
         <div class="popup-header">

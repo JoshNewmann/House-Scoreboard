@@ -56,7 +56,8 @@ canvas {
     margin: 2vh auto;   
 }
 
-.adminControls {
+.adminControls,
+.userControls {
     max-width: 440px;
     padding: 0 20px 0 20px;
     margin-bottom: 0px;
@@ -73,6 +74,10 @@ canvas {
 
 .adminControls button {
     width: 22.5%;
+}
+
+.userControls button {
+    width: 31%;
 }
 
 #sendNewButton {
@@ -99,6 +104,7 @@ canvas {
 }
 
 .adminControls button,
+.userControls button,
 .cciButton,
 .inviteButtons {
     background-color: #ca53c2;
@@ -120,12 +126,14 @@ canvas {
 }
 
 .adminControls button:hover,
+.userControls button:hover,
 .cciButton:hover,
 .inviteButtons:hover {
     background-color: #b044af; 
 }
 
 .adminControls button.active,
+.userControls button.active,
 .cciButton:active,
 .inviteButtons:active {
     background-color: #9c3d9b;
@@ -336,7 +344,6 @@ form .button input:hover {
 
 .wrapper form .signup-link {
     text-align: center;
-    margin-top: 20px;
     font-size: 17px;
 }
 
@@ -363,8 +370,8 @@ form .signup-link a:hover {
     width: 131px;
 }
 
-.signup-link {
-    padding: 15px 0 3px 0;
+.sl-first {
+    padding: 15px 0 5px 0;
 }
 
 #loginButton {
@@ -453,6 +460,19 @@ header > *:nth-last-child(1) {
     transition: ease 0.3s;
 }
 
+.backButton {
+    margin-top: -5px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 700;
+    cursor: pointer;
+    max-width: 100px;
+}
+
+.backButton:hover {
+    color: #ca53c2;
+}
+
 @media screen and (max-width: 650px) {
     canvas {
         display: none;
@@ -468,7 +488,8 @@ header > *:nth-last-child(1) {
         padding: 0 5px 0 5px;
     }
 
-    .adminControls {
+    .adminControls,
+    .userControls {
         padding: 0 5px 0 5px;
     }
 
@@ -490,12 +511,17 @@ header > *:nth-last-child(1) {
     margin-bottom: 20vh;
     }
 
-    .adminControls {
+    .adminControls,
+    .userControls {
         padding: 0 10px;
     }
     
 }
 
 .container {
+    display: none;
+}
+
+.adminOnly {
     display: none;
 }

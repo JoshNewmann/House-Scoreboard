@@ -18,6 +18,13 @@ function unhideAdminControls() {
     });
 }
 
+function unhideUserControls() {
+    const userControls = document.getElementsByClassName("userControls");
+    Array.from(userControls).forEach(element => {
+        element.style.display = "block";
+    });
+}
+
 // COOKIE AND TOKEN STUFF
 function getCookie(cookieName) {
     const name = cookieName + "=";
@@ -41,7 +48,7 @@ function getToken() {
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
 
-function validateToken(token) {
+  function validateToken(token) {
     // Make a POST request to the endpoint
     fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/validateToken', {
         method: 'POST',
@@ -53,7 +60,13 @@ function validateToken(token) {
     .then(response => {
         if (response.status === 200) {
             scoreButton();
-            const defaultButton = document.getElementById('defaultAdminButton')
+            const defaultButton = document.getElementById('defaultAdminButton');
+            defaultButton.classList.add('active');
+            localStorage.setItem('accountType', 'admin');
+        } else if (response.status === 202) {
+            scoreButton();
+            localStorage.setItem('accountType', 'contributor');
+            const defaultButton = document.getElementById('defaultUserButton');
             defaultButton.classList.add('active');
         } else if (response.status === 401) {
             // If the response is 401, clear the 'token' cookie and reload the page
@@ -126,16 +139,43 @@ function clearURLParameters() {
     }
 }
 
+function showAdminElements() {
+    const adminElements = document.querySelectorAll('.adminOnly');
+    adminElements.forEach(element => {
+        element.style.display = 'block';
+    });
+}
+
+function hideUserElements() {
+    const userElements = document.querySelectorAll('.userOnly');
+    userElements.forEach(element => {
+        element.style.display = 'none';
+    });
+}
+
 window.onload = function() {
     const token = getCookie('token');
+    const accountType = localStorage.getItem('accountType');
+
     if (token) {
-        unhideAdminControls();
-        hideContainers();
-        clearURLParameters();
-        validateToken(token);
+        if (accountType === 'contributor') {
+            unhideUserControls();
+            hideContainers();
+            clearURLParameters();
+            validateToken(token);
+        } else if (accountType === 'admin') {
+            unhideAdminControls();
+            showAdminElements();
+            hideUserElements();
+            hideContainers();
+            clearURLParameters();
+            validateToken(token);
+        } else {
+            validateToken(token);
+        }
     } else {
-        console.log('Not Authorised. Please Log In.');
-        extractEmailAndInviteCodeFromURL()
+        console.log('Not Authorized. Please Log In.');
+        extractEmailAndInviteCodeFromURL();
     }
 };
 
@@ -152,11 +192,6 @@ function signUp() {
 
     if (password !== confirmPassword) {
         console.error('Passwords do not match');
-        return;
-    }
-
-    if (!ginviteCode) {
-        alert('Please check you have clicked the link with the invite code');
         return;
     }
 
@@ -257,6 +292,18 @@ const buttons = document.querySelectorAll('.adminControls button');
 buttons.forEach(button => {
     button.addEventListener('click', function() {
         buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        this.classList.add('active');
+    });
+});
+
+const userbuttons = document.querySelectorAll('.userControls button');
+
+userbuttons.forEach(button => {
+    button.addEventListener('click', function() {
+        userbuttons.forEach(btn => {
             btn.classList.remove('active');
         });
 
@@ -448,7 +495,7 @@ function getUsers() {
     var token = getToken('token');
 
     // Fetch list of valid emails from the server
-    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/validemails', {
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/adminemails', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -462,13 +509,13 @@ function getUsers() {
         return response.json();
     })
     .then(data => {
-        const validEmails = data.validEmails;
+        const adminemails = data.adminemails;
 
         const usersContainer = document.getElementById('userList');
 
         const userList = document.createElement('ul');
 
-        validEmails.forEach(email => {
+        adminemails.forEach(email => {
             const listItem = document.createElement('li');
             listItem.textContent = email;
             userList.appendChild(listItem);
