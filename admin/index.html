@@ -75,7 +75,7 @@
       
       <div class="adminControls">
         <button id="defaultAdminButton" onclick="scoreButton()">Score</button>
-        <button onclick="showContainer('contributions')">Requests</button>
+        <button onclick="showContainer('contributions'); displayContributions();">Requests</button>
         <button onclick="showContainer('logs'); displayLogs();">Logs</button>
         <button onclick="showContainer('more')">More</button>
       </div>
@@ -130,9 +130,8 @@
 
     <div id="contributions" class="container">
       <div class="wrapper">
-          <div class="title"><span>Contributions</span></div>
-          <div class="containerChild">
-            <p>Requests to modify the scores are displayed below:</p>
+          <div class="title"><span>Requests</span></div>
+          <div id="contributionsCC" class="containerChild">
             </div>
           </div>
       </div>
@@ -156,7 +155,7 @@
             <div class="moreListItem">Manage Contributors ➜</div>
             <div class="moreListItem">Manage Events ➜</div>
       </div>
-        </div>
+      </div>
       </div>
 
       <div id="users" class="container">

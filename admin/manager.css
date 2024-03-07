@@ -102,7 +102,8 @@ canvas {
 .adminControls button,
 .userControls button,
 .cciButton,
-.inviteButtons {
+.inviteButtons,
+#contributions button {
     background-color: #ca53c2;
     color: white;
     padding: 10px 20px;
@@ -118,8 +119,13 @@ canvas {
     padding-right: 0;
 }
 
-.inviteButtons {
+.inviteButtons,
+#contributions button {
     margin: 0 2px 0 2px;
+}
+
+#contributions button {
+    margin-bottom: 20px;
 }
 
 #gsfs,
@@ -130,14 +136,16 @@ canvas {
 .adminControls button:hover,
 .userControls button:hover,
 .cciButton:hover,
-.inviteButtons:hover {
+.inviteButtons:hover,
+#contributions button:hover {
     background-color: #b044af; 
 }
 
 .adminControls button.active,
 .userControls button.active,
 .cciButton:active,
-.inviteButtons:active {
+.inviteButtons:active,
+#contributions button:active {
     background-color: #9c3d9b;
 }
 
@@ -485,6 +493,32 @@ header > *:nth-last-child(1) {
     color: #ca53c2;
 }
 
+#contributionsCC {
+    max-height: 500px;
+    overflow-y: scroll;
+    padding-left: 38px;
+    padding-bottom: 5px;
+}
+
+#contributionsCC li {
+    list-style: disc inside;
+    font-size: 16px;
+    margin: 0 5px 0 5px;
+}
+
+#contributionsCC li:last-child {
+    margin-bottom: 7px;
+}
+
+#contributionsCC li:first-child {
+    margin-top: 7px;
+}
+
+#contributionsCC b {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
 @media screen and (max-width: 650px) {
     canvas {
         display: none;
@@ -513,7 +547,8 @@ header > *:nth-last-child(1) {
         width: calc(100vw - 20px);
     }
 
-    #logContainer {
+    #logContainer,
+    #contributionsCC {
         padding: 20px 10px 20px 10px;
     }
 }

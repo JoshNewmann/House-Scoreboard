@@ -741,9 +741,19 @@ function clearLogContainer() {
     .catch(error => console.error('Error:', error));
 }
 
+function clearContributions() {
+    const contributionsContainer = document.querySelector('#contributions .containerChild');
+    contributionsContainer.innerHTML = ''; // Clear all child elements
+}
+
+
 function displayContributions() {
     const token = getToken();
-    
+    const contributionsCC = document.getElementById("contributionsCC");
+    const headerText = document.createElement("p");
+    headerText.textContent = "Requests to modify the scores are displayed below:";
+    const lineBreak = document.createElement("br");
+
     fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/getContributions', {
         method: 'POST',
         headers: {
@@ -753,40 +763,96 @@ function displayContributions() {
     })
     .then(response => response.json())
     .then(data => {
+        clearContributions()
         const contributionsContainer = document.querySelector('#contributions .containerChild');
+        
+        contributionsCC.prepend(lineBreak);
+        contributionsCC.prepend(headerText);
 
-        data.contributions.forEach(contribution => {
-            const contributionItem = document.createElement('div');
-            contributionItem.classList.add('contributionItem');
-        
-            // Get the requester's name from the contributor's email
-            let requesterName = getEmailName(contribution.contributor);
-        
-            // Create header
-            const header = document.createElement('p');
-            header.textContent = `${requesterName} is requesting to add scores for: ${contribution.comment}`;
-            contributionItem.appendChild(header);
-        
-            // Create list for scores
-            const scoresList = document.createElement('ul');
-            const onkaScore = document.createElement('li');
-            onkaScore.textContent = `Onka: ${contribution.Onka}`;
-            scoresList.appendChild(onkaScore);
-            const scottScore = document.createElement('li');
-            scottScore.textContent = `Scott: ${contribution.Scott}`;
-            scoresList.appendChild(scottScore);
-            const coxScore = document.createElement('li');
-            coxScore.textContent = `Cox: ${contribution.Cox}`;
-            scoresList.appendChild(coxScore);
-            const sturtScore = document.createElement('li');
-            sturtScore.textContent = `Sturt: ${contribution.Sturt}`;
-            scoresList.appendChild(sturtScore);
-        
-            contributionItem.appendChild(scoresList);
-            contributionsContainer.appendChild(contributionItem);
-        });
+        if (data.contributions.length === 0) {
+            const noRequestsText = document.createElement('p');
+            noRequestsText.innerHTML = '<b>All requests have been acted on</b><br><br>';
+            contributionsCC.appendChild(noRequestsText);
+        } else {
+            data.contributions.forEach(contribution => {
+                const contributionItem = document.createElement('div');
+                contributionItem.classList.add('contributionItem');
+            
+                // Get the requester's name from the contributor's email
+                let requesterName = getEmailName(contribution.contributor);
+                
+                // Create header
+                const header = document.createElement('b');
+                header.textContent = `${requesterName} is requesting to add scores for reason "${contribution.comment}"`;
+                contributionItem.appendChild(header);
+            
+                // Create list for scores
+                const scoresList = document.createElement('ul');
+                const onkaScore = document.createElement('li');
+                onkaScore.textContent = `Onka: ${contribution.Onka}`;
+                scoresList.appendChild(onkaScore);
+                const scottScore = document.createElement('li');
+                scottScore.textContent = `Scott: ${contribution.Scott}`;
+                scoresList.appendChild(scottScore);
+                const coxScore = document.createElement('li');
+                coxScore.textContent = `Cox: ${contribution.Cox}`;
+                scoresList.appendChild(coxScore);
+                const sturtScore = document.createElement('li');
+                sturtScore.textContent = `Sturt: ${contribution.Sturt}`;
+                scoresList.appendChild(sturtScore);
+            
+                contributionItem.appendChild(scoresList);
+
+                // Create buttons
+                const acceptButton = document.createElement('button');
+                acceptButton.textContent = 'Accept';
+                acceptButton.addEventListener('click', () => handleRequest(contribution.id, 'accept'));
+                contributionItem.appendChild(acceptButton);
+
+                const denyButton = document.createElement('button');
+                denyButton.textContent = 'Deny';
+                denyButton.addEventListener('click', () => handleRequest(contribution.id, 'deny'));
+                contributionItem.appendChild(denyButton);
+
+                contributionsContainer.appendChild(contributionItem);
+            });
+        }
     })
     .catch(error => console.error('Error fetching contributions:', error));
+}
+
+
+function handleRequest(id, action) {
+    const token = getToken();
+    
+    if (!token) {
+        console.error('Token not found');
+        return;
+    }
+
+    const data = {
+        token: token,
+        id: id,
+        action: action
+    };
+
+    fetch('http://localhost:3000/houseleaderboard/handleRequest', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            displayContributions();
+        } else {
+            console.error('Error:', response.statusText);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 //MORE TAB
