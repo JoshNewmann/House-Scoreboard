@@ -836,7 +836,7 @@ function handleRequest(id, action) {
         action: action
     };
 
-    fetch('http://localhost:3000/houseleaderboard/handleRequest', {
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/handleRequest', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
