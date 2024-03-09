@@ -13,9 +13,9 @@
     <header>
       <img class="headerLogo" id="Slogo" alt="logo" src="../assets/logo-small-black-overlay.png" draggable="false" onclick="window.location.href = '..'">
       <h3>Scoreboard Manager</h3>
-      <img class="headerLogo" id="Cog" src="../assets/user-circle.svg" alt="options" draggable="false">
+      <img class="headerLogo" id="Cog" src="../assets/user-circle.svg" alt="options" draggable="false" onclick="showPopup()">
     </header>
-
+    
     <div id="login" class="container unauth">
         <div class="wrapper">
           <div class="title"><span>Log In</span></div>
@@ -76,14 +76,14 @@
       <div class="adminControls">
         <button id="defaultAdminButton" onclick="scoreButton()">Score</button>
         <button onclick="showContainer('contributions'); displayContributions();">Requests</button>
-        <button onclick="showContainer('logs'); displayLogs();">Logs</button>
+        <button onclick="showContainer('logs'); displayLogs();">History</button>
         <button onclick="showContainer('more')">More</button>
       </div>
 
       <div class="userControls">
         <button id="defaultUserButton" onclick="scoreButton()">Score</button>
-        <button onclick="showContainer('logs'); displayLogs();">Logs</button>
-        <button onclick="showContainer('myrequests')">My Requests</button>
+        <button onclick="showContainer('logs'); displayLogs();">History</button>
+        <button onclick="showContainer('myrequests'); displayPendingRequests();">My Requests</button>
       </div>
 
       <div id="score" class="container">
@@ -149,11 +149,11 @@
         <div class="wrapper">
           <div class="title"><span>More</span></div>
           <div class="containerChild">
-            <p>The functionality for these buttons (except for the manage admin users one) is still a work in progress (:</p><br>
+            <p>The functionality for these buttons is still a work in progress (:</p><br>
             <div class="moreListItem">View Detailed Logs ➜</div>
-            <div class="moreListItem" onclick="usersButton()">Manage Admin Users ➜</div>
-            <div class="moreListItem">Manage Contributors ➜</div>
-            <div class="moreListItem">Manage Events ➜</div>
+            <div class="moreListItem" onclick="showContainer('usermanager'); fetchUserLists();">Manage User Accounts ➜</div>
+            <div class="moreListItem" onclick="usersButton()">Manage Admin Accounts ➜</div>
+            <div class="moreListItem" style="cursor: not-allowed;">Manage Events ➜</div>
       </div>
       </div>
       </div>
@@ -178,23 +178,49 @@
         </div>
     </div>
 
+    <div id="usermanager" class="container">
+      <div class="wrapper">
+          <div class="title"><span>Manage Users</span></div>
+          <div class="containerChild" id="usermanagerCC">
+              <p class="backButton" onclick="showContainer('more')"><span class="leftArrow">↩</span> Go Back</p>
+              <p>Emails are not verified. Please ensure the account creator is who you think it is.</p><br>
+            
+              <b>Awaiting Approval</b>
+            <div class="innerUserManager" id="awaitingApprovalDiv">
+              <div id="awaitingapprovallist"></div>
+            </div>
+
+            <b>Current User Accounts</b>
+              <div class="innerUserManager" id="currentAccountsDiv">
+              <div id="currentaccountslist"></div>
+            </div>
+          </div>
+          </div>
+          </div>
+      </div>
+
     <div id="myrequests" class="container">
       <div class="wrapper">
           <div class="title"><span>My Requests</span></div>
-          <div class="containerChild">
-            <p>Your pending requests to add scores are displayed below</p>
+          <div id="myrequestsinner" class="containerChild">
+            <div>
+              <b>Your pending requests to add scores are displayed below:</b>
+            </div>
+            <div id="myPendingRequestsList">
+            </div>
       </div>
-  </div>
+    </div>
+    </div>
 
       <div class="popup" id="popup">
         <div class="popup-header">
           <span class="popup-label">Account</span>
-          <span class="close-btn" onclick="hidePopup()">𐌗</span>
+          <span class="close-btn" onclick="hidePopup(); accountPopupTrigger.src = '../assets/user-circle.svg';">𐌗</span>
         </div>
         <div class="popup-content">
-          <button class="setting-btn" id="changePassword" >Change Password</button>
-          <button class="setting-btn" onclick="signOut('false')" id="logOut">Log Out</button>
-          <button class="setting-btn" onclick="signOut('true')" id="logOutEverywhere">Log Out Everywhere</button>
+          <button class="setting-btn" id="changePassword" onclick="openPasswordModal(); dimScreen();">Change Password</button>
+          <button class="setting-btn" onclick="signOut('device')" id="logOut">Log Out</button>
+          <button class="setting-btn" onclick="signOut('everywhere')" id="logOutEverywhere">Log Out Everywhere</button>
         </div>
       </div>
 
@@ -203,9 +229,30 @@
         <button id="dismiss-toast" onclick="dismissToast()">Dismiss</button>
         <button id="email-toast">Help</button>
       </div>
-
-    <a href="../" class="scoreboard-btn">Go To Scoreboard</a>
     
+      <div id="pwModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closePasswordModal(); undimScreen();">&times;</span>
+          <h2>Change Password</h2><br>
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword">
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword">
+          </div>
+          <div class="form-group">
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword">
+          </div><br>
+          <button id="changePasswordBtn" onclick="changePassword()">Change Password</button>
+        </div>
+      </div>
+      
+
+    <a href="../" class="scoreboardButton">Go To Scoreboard</a>
+
     <script src="./accountmenu.js"></script>
     <script src="../common.js"></script>
     <script src="./manager.js"></script>

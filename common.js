@@ -19,16 +19,18 @@ function hidePopup() {
 }
 
 function showPopup2(title, body, body2) {
+    dimScreen()
     // Create popup container
     var popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
 
     // Create close button
     var closeButton = document.createElement('span');
-    closeButton.innerHTML = 'X';
+    closeButton.innerHTML = '𐌗';
     closeButton.classList.add('popup-container-close-btn');
     closeButton.onclick = function() {
       document.body.removeChild(popupContainer);
+      undimScreen();
     };
 
     // Create title element

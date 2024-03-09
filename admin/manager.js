@@ -181,8 +181,6 @@ window.onload = function() {
     }
 };
 
-
-
 //Authentication
 function signUp() {
     const email = document.querySelector('#signupForm input[name="email"]').value;
@@ -652,6 +650,7 @@ function revokeInvite(inviteCode) {
 
 function scoreButton() {
 	showContainer('score');
+    document.getElementById("comment").value = '';
     uds();
     fetchScores();
     restrictNumericInput();
@@ -750,7 +749,7 @@ function clearContributions() {
 function displayContributions() {
     const token = getToken();
     const contributionsCC = document.getElementById("contributionsCC");
-    const headerText = document.createElement("p");
+    const headerText = document.createElement("b");
     headerText.textContent = "Requests to modify the scores are displayed below:";
     const lineBreak = document.createElement("br");
 
@@ -771,7 +770,7 @@ function displayContributions() {
 
         if (data.contributions.length === 0) {
             const noRequestsText = document.createElement('p');
-            noRequestsText.innerHTML = '<b>All requests have been acted on</b><br><br>';
+            noRequestsText.innerHTML = '<p>All requests have been acted on</p><br>';
             contributionsCC.appendChild(noRequestsText);
         } else {
             data.contributions.forEach(contribution => {
@@ -782,10 +781,10 @@ function displayContributions() {
                 let requesterName = getEmailName(contribution.contributor);
                 
                 // Create header
-                const header = document.createElement('b');
+                const header = document.createElement('p');
                 header.textContent = `${requesterName} is requesting to add scores for reason "${contribution.comment}"`;
                 contributionItem.appendChild(header);
-            
+                
                 // Create list for scores
                 const scoresList = document.createElement('ul');
                 const onkaScore = document.createElement('li');
@@ -856,3 +855,205 @@ function handleRequest(id, action) {
 }
 
 //MORE TAB
+
+function clearPendingRequests() {
+    const myPendingRequestsList = document.getElementById("myPendingRequestsList");
+    myPendingRequestsList.innerHTML = '';
+}
+
+function displayPendingRequests() {
+    const token = getToken();
+    const myPendingRequestsList = document.getElementById("myPendingRequestsList");
+
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/getMyContributions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: token, requestType: 'pending' })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Error fetching pending requests:', data.error);
+            return;
+        }
+
+        clearPendingRequests();
+        
+        if (data.contributions.length === 0) {
+            const noRequestsText = document.createElement('div');
+            noRequestsText.innerHTML = '<p class="pendingRequests">No pending requests to display</p><br>';
+            myPendingRequestsList.appendChild(noRequestsText);
+        } else {
+            data.contributions.forEach(contribution => {
+                const requestItem = document.createElement('div');
+                requestItem.classList.add('requestItem');
+
+                // Display contributor's name and comment
+                const requestDetails = document.createElement('p');
+                requestDetails.textContent = `"${contribution.comment}"`;
+                requestItem.appendChild(requestDetails);
+
+                // Display scores
+                const scoresList = document.createElement('ul');
+                const onkaScore = document.createElement('li');
+                onkaScore.textContent = `Onka: ${contribution.Onka}`;
+                scoresList.appendChild(onkaScore);
+                const scottScore = document.createElement('li');
+                scottScore.textContent = `Scott: ${contribution.Scott}`;
+                scoresList.appendChild(scottScore);
+                const coxScore = document.createElement('li');
+                coxScore.textContent = `Cox: ${contribution.Cox}`;
+                scoresList.appendChild(coxScore);
+                const sturtScore = document.createElement('li');
+                sturtScore.textContent = `Sturt: ${contribution.Sturt}`;
+                scoresList.appendChild(sturtScore);
+                requestItem.appendChild(scoresList);
+
+                // Create cancel button
+                const cancelButton = document.createElement('button');
+                cancelButton.textContent = 'Cancel';
+                cancelButton.addEventListener('click', () => cancelRequest(contribution.id));
+                requestItem.appendChild(cancelButton);
+
+                myPendingRequestsList.appendChild(requestItem);
+            });
+        }
+    })
+    .catch(error => console.error('Error fetching pending requests:', error));
+}
+
+function cancelRequest(id) {
+    const token = getToken();
+
+    const requestBody = {
+        token: token,
+        id: id
+    };
+
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/cancelRequest', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => {
+        if (response.ok) {
+            displayPendingRequests();
+        } else {
+            throw new Error('Failed to delete request');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function fetchUserLists() {
+    // Fetch the lists of contributors and accounts awaiting approval
+    Promise.all([
+        fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/manageContributors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: getToken(), action: 'list' })
+        }),
+        fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/manageContributors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: getToken(), action: 'listawaiting' })
+        })
+    ])
+    .then(responses => Promise.all(responses.map(response => response.json())))
+    .then(([contributorData, awaitingApprovalData]) => {
+        const contributoremails = contributorData.contributoremails;
+        const awaitingapproval = awaitingApprovalData.awaitingapproval;
+
+        // Update the HTML elements with the lists
+        const awaitingapprovalElement = document.getElementById('awaitingapprovallist');
+        const currentaccountsElement = document.getElementById('currentaccountslist');
+
+        // Clear existing content
+        awaitingapprovalElement.innerHTML = '';
+        currentaccountsElement.innerHTML = '';
+
+        // Populate the 'Awaiting Approval' list with buttons or display a message
+        if (awaitingapproval.length === 0) {
+            const noUsersMessage = document.createElement('p');
+            noUsersMessage.textContent = 'No users awaiting approval';
+            awaitingapprovalElement.appendChild(noUsersMessage);
+        } else {
+            awaitingapproval.forEach(email => {
+                const emailElement = document.createElement('div');
+                emailElement.innerHTML = '<p>' + email + '</p>';
+
+                const denyButton = createButton('Deny', () => manageUser(email, 'delete'));
+                const approveButton = createButton('Approve', () => manageUser(email, 'approve'));
+                
+                emailElement.appendChild(denyButton);
+                emailElement.appendChild(approveButton);
+
+                awaitingapprovalElement.appendChild(emailElement);
+            });
+        }
+
+        // Populate the 'Current Accounts' list (Contributors) with buttons
+        contributoremails.forEach(email => {
+            const emailElement = document.createElement('div');
+            emailElement.innerHTML = '<p>' + email + '</p>';
+
+            const revokeAccessButton = createButton('Unapprove', () => manageUser(email, 'unauthorise'));
+            const promoteButton = createButton('Make Admin', () => manageUser(email, 'promote'));
+
+            emailElement.appendChild(revokeAccessButton);
+            emailElement.appendChild(promoteButton);
+
+            currentaccountsElement.appendChild(emailElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching user lists:', error);
+    });
+}
+
+// Helper function to create buttons
+function createButton(text, onClick) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.addEventListener('click', onClick);
+    return button;
+}
+
+// Function to manage user based on action
+function manageUser(email, action) {
+    if (action === 'promote') {
+        // Display a confirmation dialog before promoting the user
+        const confirmPromote = confirm('Are you sure you want to promote this user? They will have full access to this website, including the ability to add scores without confirmation.');
+        if (!confirmPromote) {
+            return;
+        }
+    }
+
+    fetch('https://jn6scoreboardapi.quinquadcraft.org/houseleaderboard/manageContributors', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: getToken(), account: email, action })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response, update UI, etc.
+        console.log(data.message);
+        // After managing user, fetch updated lists
+        fetchUserLists();
+    })
+    .catch(error => {
+        console.error('Error managing user:', error);
+    });
+}

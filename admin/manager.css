@@ -60,7 +60,7 @@ canvas {
 .userControls {
     max-width: 440px;
     padding: 0 20px 0 20px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -103,7 +103,10 @@ canvas {
 .userControls button,
 .cciButton,
 .inviteButtons,
-#contributions button {
+#contributions button,
+#myPendingRequestsList button,
+.innerUserManager button,
+.modal button {
     background-color: #ca53c2;
     color: white;
     padding: 10px 20px;
@@ -113,18 +116,29 @@ canvas {
     transition: background-color 0.3s;
 }
 
+.innerUserManager div {
+    margin-bottom: 10px;
+}
+
+.innerUserManager b:last-child {
+    margin-bottom: -10px;
+}
+
 .adminControls button {
-    width: 22.5%;
+    width: 23%;
     padding-left: 0;
     padding-right: 0;
 }
 
 .inviteButtons,
-#contributions button {
+#contributions button,
+#myPendingRequestsList button,
+.innerUserManager button {
     margin: 0 2px 0 2px;
 }
 
-#contributions button {
+#contributions button,
+#myPendingRequestsList button {
     margin-bottom: 20px;
 }
 
@@ -137,7 +151,10 @@ canvas {
 .userControls button:hover,
 .cciButton:hover,
 .inviteButtons:hover,
-#contributions button:hover {
+#contributions button:hover,
+#myPendingRequestsList button:hover,
+.innerUserManager button:hover,
+.modal button:hover {
     background-color: #b044af; 
 }
 
@@ -145,7 +162,10 @@ canvas {
 .userControls button.active,
 .cciButton:active,
 .inviteButtons:active,
-#contributions button:active {
+#contributions button:active,
+#myPendingRequestsList button:active,
+.innerUserManager button:active,
+.modal button:active {
     background-color: #9c3d9b;
 }
 
@@ -234,7 +254,8 @@ p {
 
 #emailInput,
 input[type="number"],
-#comment {
+#comment,
+.modal input {
     padding: 8px;
     border: 1px solid #aaa;
     border-radius: 100px;
@@ -245,12 +266,14 @@ input[type="number"],
 
 #emailInput:hover,
 input[type="number"]:hover,
-#comment:hover {
+#comment:hover,
+.modal input:hover {
     border-color: #ca53c2;
 }
 
 #emailInput:focus,
-#comment:focus {
+#comment:focus,
+.modal input:focus {
     outline: none;
 }
 
@@ -404,7 +427,7 @@ form .signup-link a:hover {
     margin-top: 3px;
 }
 
-.scoreboard-btn {
+.scoreboardButton {
     position: fixed;
     bottom: 18px;
     left: 18px;
@@ -420,7 +443,7 @@ form .signup-link a:hover {
     box-shadow: 0px 4px 10px 1px rgba(224, 16, 214, 0.1);
 }
 
-.scoreboard-btn:hover {
+.scoreboardButton:hover {
     background-color: #9c3d9b;
 }
 
@@ -434,9 +457,13 @@ header > *:nth-last-child(1) {
 
 .logDate {
     font-weight: bold;
-    padding-bottom: 5px;
     font-size: 16px;
-  }
+    margin-top: 5px;
+}
+
+.logDate:first-of-type {
+    margin-top: -5px;
+}
   
 .logDetails {
     padding-bottom: 5px;
@@ -493,35 +520,118 @@ header > *:nth-last-child(1) {
     color: #ca53c2;
 }
 
-#contributionsCC {
+#contributionsCC,
+#myrequestsinner {
     max-height: 500px;
     overflow-y: scroll;
     padding-left: 38px;
     padding-bottom: 5px;
 }
 
-#contributionsCC li {
+#contributionsCC li,
+#myPendingRequestsList li {
     list-style: disc inside;
     font-size: 16px;
     margin: 0 5px 0 5px;
 }
 
-#contributionsCC li:last-child {
-    margin-bottom: 7px;
-}
-
-#contributionsCC li:first-child {
-    margin-top: 7px;
-}
-
-#contributionsCC b {
-    font-size: 16px;
+#contributionsCC li:last-child,
+#myPendingRequestsList:last-child {
     margin-bottom: 10px;
 }
+
+#contributionsCC li:first-child,
+#myPendingRequestsList :first-child {
+    margin-top: 5px;
+}
+
+#contributionsCC p {
+    margin-top: 10px;
+}
+
+#contributionsCC b,
+#myrequestsinner {
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+
+#myPendingRequestsList b,
+#usermanagerCC {
+    font-size: 16px;
+}
+
+.innerUserManager:first-of-type {
+    margin-bottom: 25px;
+    padding-left: 14px;
+}
+
+#myrequestsinner button {
+    margin-top: 10px;
+}
+
+.pendingRequests {
+    padding-top: 10px;
+    margin-bottom: -10px;
+}
+
+#usermanager b {
+    font-size: 16px;
+}
+
+#awaitingApprovalDiv {
+    max-height: 120px;
+    overflow-y: scroll;
+}
+
+#currentAccountsDiv {
+    max-height: 220px;
+    overflow-y: scroll;
+}
+
+.modal {
+    width: 400px;
+    background-color: white;
+    border-radius: 25px;
+    font-size: 16px;
+    padding: 20px;
+    position: absolute;
+    left: calc(50vw - 200px);
+    display: none;
+    top: 25vh;
+    z-index: 1001;
+}
+
+.modal input {
+    margin: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal input {
+    width: 95%;
+}
+
 
 @media screen and (max-width: 650px) {
     canvas {
         display: none;
+    }
+
+    .modal {
+        width: 95vw;
+        left: 2.5vw;
     }
 
     body,
@@ -550,6 +660,12 @@ header > *:nth-last-child(1) {
     #logContainer,
     #contributionsCC {
         padding: 20px 10px 20px 10px;
+    }
+
+    .innerUserManager,
+    #awaitingApprovalDiv,
+    #currentAccountsDiv {
+        padding-left: 0px;
     }
 }
 
