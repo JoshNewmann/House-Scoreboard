@@ -73,6 +73,18 @@
         </div>
       </div>
       
+      <div id="awaitingapprovalcontainer" class="container">
+        <div class="wrapper">
+            <div class="title"><span>Welcome</span></div>
+            <div class="containerChild">
+              <p>Thanks for creating an account</p><br>
+              <p>Your account is awaiting approval</p><br>
+              <p>Refresh this page for updates</p>
+              </div>
+            </div>
+        </div>
+    </div>
+
       <div class="adminControls">
         <button id="defaultAdminButton" onclick="scoreButton()">Score</button>
         <button onclick="showContainer('contributions'); displayContributions();">Requests</button>
@@ -218,7 +230,8 @@
           <span class="close-btn" onclick="hidePopup(); accountPopupTrigger.src = '../assets/user-circle.svg';">𐌗</span>
         </div>
         <div class="popup-content">
-          <button class="setting-btn" id="changePassword" onclick="openPasswordModal(); dimScreen();">Change Password</button>
+          <!---onclick="openPasswordModal(); dimScreen();"-->
+          <button class="setting-btn" id="changePassword" style="cursor: not-allowed;">Change Password</button>
           <button class="setting-btn" onclick="signOut('device')" id="logOut">Log Out</button>
           <button class="setting-btn" onclick="signOut('everywhere')" id="logOutEverywhere">Log Out Everywhere</button>
         </div>

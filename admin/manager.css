@@ -22,6 +22,10 @@ html {
     background-color: #f1f1f1;
 }
 
+a {
+    color: #c850be;
+}
+
 canvas {
     display: none;
     width: 100vw;
@@ -649,7 +653,7 @@ header > *:nth-last-child(1) {
         padding: 0 5px 0 5px;
     }
 
-    .scoreboard-btn {
+    .scoreboardButton {
         display: none;
     }
 
@@ -666,6 +670,29 @@ header > *:nth-last-child(1) {
     #awaitingApprovalDiv,
     #currentAccountsDiv {
         padding-left: 0px;
+    }
+
+    #popup {
+        width: calc(100vw - 50px);
+        position: absolute;
+        top: 20%;
+        left: auto;
+        right: 5px;
+    }
+
+    .setting-btn {
+        width: 97%;
+        align-items: center;
+        margin-left: 1.5%;
+        height: 50px;
+        border-radius: 100px;
+        font-size: 15px;
+    }
+
+    .popup-label,
+    .close-btn {
+        font-size: 20px;
+        color: white;
     }
 }
 

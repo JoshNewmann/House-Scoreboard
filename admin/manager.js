@@ -25,6 +25,19 @@ function unhideUserControls() {
     });
 }
 
+function hideControls() {
+    const adminControls = document.getElementsByClassName("adminControls");
+    Array.from(adminControls).forEach(element => {
+        element.style.display = "none";
+    });
+
+    const userControls = document.getElementsByClassName("userControls");
+    Array.from(userControls).forEach(element => {
+        element.style.display = "none";
+    });
+}
+
+
 // COOKIE AND TOKEN STUFF
 function getCookie(cookieName) {
     const name = cookieName + "=";
@@ -70,6 +83,9 @@ function getToken() {
             localStorage.setItem('accountType', 'contributor');
             const defaultButton = document.getElementById('defaultUserButton');
             defaultButton.classList.add('active');
+        } else if (response.status === 201) {
+            showContainer('awaitingapprovalcontainer');
+            hideControls();
         } else if (response.status === 401) {
             // If the response is 401, clear the 'token' cookie and reload the page
             document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
@@ -122,13 +138,13 @@ function extractEmailAndInviteCodeFromURL() {
         }
         ginviteCode = inviteCode;    
 
-    } else if (inviteCode && !email) {
+    } /* else if (inviteCode && !email) {
         showContainer('signup')
         console.log("Invite Code:", inviteCode);
         ginviteCode = inviteCode
     } else {
         showContainer('login')
-    }
+    } */
 }
 
 function clearURLParameters() {
@@ -178,6 +194,7 @@ window.onload = function() {
     } else {
         console.log('Not Authorized. Please Log In.');
         extractEmailAndInviteCodeFromURL();
+        showContainer('login');
     }
 };
 
@@ -251,12 +268,18 @@ function signIn() {
         body: JSON.stringify(data)
     })
     .then(response => {
+        if (response.status === 201) {
+            hideControls();
+            showContainer('awaitingapprovalcontainer');
+            return;
+        }
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         return response.json();
     })
     .then(data => {
+        if (!data) return;
         console.log('Sign in successful:', data);
         const token = data.token;
         setTokenCookie(token);
